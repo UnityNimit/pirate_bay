@@ -1,0 +1,78 @@
+/* frontend/public/css/search.css */
+
+#results-info-bar {
+    background-color: #222;
+    padding: 8px 5%;
+    border-top: 1px solid #555;
+    border-bottom: 1px solid #555;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#search-info {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#results-count {
+    font-style: italic;
+    color: #aaa;
+    font-size: 12px;
+}
+
+#searchResult {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#searchResult th {
+    background-color: #2c2c2c;
+    padding: 5px;
+    text-align: left;
+    font-size: 12px;
+    border-bottom: 2px solid #555;
+}
+
+#searchResult th a {
+     color: #8ab4f8;
+}
+
+#searchResult td {
+    padding: 5px;
+    border-bottom: 1px solid #444;
+}
+
+/* Column styles for Seeders and Leechers */
+.col-se, .col-le {
+    width: 50px;
+    text-align: right;
+}
+
+.col-se-le {
+    width: 50px;
+}
+
+/* Torrent name and description styles */
+.detName {
+    font-size: 12px;
+}
+
+.detDesc {
+    font-size: 10px;
+    color: #aaa;
+    font-style: italic;
+}
+
+.detDesc img {
+    vertical-align: middle;
+    margin-right: 2px;
+    height: 12px; /* Set a consistent height for icons */
+    width: auto;
+    filter: invert(1) brightness(2);
+}
+
+/* Alternating row color for readability */
+tr.alt-row {
+     background-color: #1a1a1a;
+}

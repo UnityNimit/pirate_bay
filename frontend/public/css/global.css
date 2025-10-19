@@ -1,0 +1,166 @@
+/* frontend/public/css/global.css */
+
+/* General Body and Link Styles */
+body {
+    background-color: #121212;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: #8ab4f8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* === UNIVERSAL DYNAMIC HEADER === */
+#header-container {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px 5%;
+}
+
+#logo {
+    margin-right: 20px;
+    margin-left: -60px;
+}
+
+#logo img {
+    height: 100px;
+}
+
+#search-nav-container {
+    padding-top: 10px;
+}
+
+#header-container nav {
+    margin-bottom: 15px; /* Added margin to separate nav from search form */
+}
+
+#header-container nav a {
+    font-weight: normal;
+    border-bottom: 1px dotted #8ab4f8;
+    margin: 0 5px;
+    font-size: 14px;
+}
+
+#header-container nav a b,
+#header-container nav a.active {
+    font-weight: bold;
+}
+
+/* --- THE ALIGNMENT FIX --- */
+#searchBox, #searchBtn {
+    vertical-align: middle; /* This is the key to aligning the items */
+}
+
+#searchBtn {
+    margin-left: 5px; /* Adds the requested gap */
+}
+/* --- END OF FIX --- */
+
+
+#searchBox {
+    border: 1px solid #555;
+    padding: 5px;
+    width: 300px;
+    background-color: #333;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+#searchBtn {
+    padding: 5px 12px;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.welcome-message {
+    color: #90ee90;
+    font-size: 12px;
+    margin-top: 10px;
+    text-align: left;
+}
+
+/* === Standard Title Bar for Content Pages === */
+#title-bar {
+    background-color: #222;
+    padding: 8px 5%;
+    border-top: 1px solid #555;
+    border-bottom: 1px solid #555;
+}
+
+#title-bar h2 {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0;
+}
+
+/* === Standard Main Content Wrapper === */
+#main-content {
+    width: 90%;
+    margin: 20px auto;
+}
+
+/* === Common Reusable Components === */
+.reply-button {
+    padding: 6px 15px;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.pagination {
+    font-size: 12px;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.pagination a, .pagination b {
+    padding: 3px 6px;
+    border: 1px solid #444;
+    margin: 0 2px;
+}
+
+.pagination b {
+    background-color: #333;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* === UNIVERSAL FOOTER === */
+#footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-bottom: 20px;
+    font-size: 12px;
+}
+
+#footer p {
+    margin: 5px 0;
+}
+
+#footer a {
+    margin: 0 5px;
+    border-bottom: 1px dotted #8ab4f8;
+}
+
+#footer #bitcoin-address a {
+    border-bottom: none;
+    color: #aaa;
+}
+
+#footer .rss-icon {
+    filter: invert(1);
+}

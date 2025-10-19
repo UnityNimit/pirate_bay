@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pirate Bay - Dark Theme</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+    <!-- Ads Section (no changes) -->
+    <div class="ad-box" id="leftAdTop"><span class="close-btn">&times;</span><a href="#" target="_blank"><img src="/images/ad1.png" alt="Advertisement"></a></div>
+    <div class="ad-box" id="leftAdBottom"><span class="close-btn">&times;</span><a href="#" target="_blank"><img src="https://i.pinimg.com/originals/99/09/19/9909198258a732017d D9a38b462ce8772.jpg" alt="Advertisement"></a></div>
+    <div class="ad-box" id="rightAd"><span class="close-btn">&times;</span><a href="#" target="_blank"><img src="/images/ad2.png" alt="Advertisement"></a></div>
+
+    <div class="container">
+        <header>
+            <img src="/images/logo.png" alt="The Pirate Bay Logo">
+        </header>
+        
+        <!-- RESTORED: Original Homepage Navigation Structure -->
+        <nav id="main-nav">
+             <a href="/search">Search Torrents</a> |
+             <a href="/top">Browse Torrents</a> |
+             <a href="#">Recent Torrents</a> |
+             <a href="#">TV shows</a> |
+             <a href="#">Music</a> |
+             <a href="/top">Top 100</a>
+        </nav>
+
+        <!-- The Homepage Search Form -->
+        <form class="search-form" id="home-search-form">
+            <input type="text" name="q" placeholder="Pirate Search" required>
+            <div class="search-options">
+                <label><input type="checkbox" name="category" value="Audio"> Audio</label>
+                <label><input type="checkbox" name="category" value="Video"> Video</label>
+                <label><input type="checkbox" name="category" value="Applications"> Applications</label>
+                <label><input type="checkbox" name="category" value="Games"> Games</label>
+                <label><input type="checkbox" name="category" value="Porn"> Porn</label> <!-- You can remove this if not needed -->
+                <label><input type="checkbox" name="category" value="Other"> Other</label>
+            </div>
+            <div class="search-buttons">
+                <input type="submit" value="Pirate Search">
+                <input type="button" id="lucky-btn" value="I'm Feeling Lucky">
+            </div>
+        </form>
+
+        <div class="proxy-list"><a href="#">Pirate Bay Proxy List</a></div>
+
+        <!-- RESTORED: Original Footer Structure with Dynamic Links -->
+        <footer>
+            <a href="#">ThePirateBay</a> | <a href="#">The Pirate Bay</a> | <a href="#">Piratebay proxy</a>
+            <br>
+            <!-- Dynamic Links -->
+            <span id="main-nav-auth-links">
+                <a href="/login" id="main-nav-login">Login</a> |
+                <a href="/register" id="main-nav-register">Register</a> |
+            </span>
+             <span id="main-nav-user-links" style="display: none;">
+                <a id="main-nav-my-profile" href="#">My Profile</a> |
+                <a href="/upload" id="main-nav-upload">Upload Torrent</a> |
+                <a href="#" onclick="logout()" id="main-nav-logout"><b>Logout</b></a> |
+            </span>
+            <!-- Static Links -->
+            <a href="#">Language</a> | <a href="/about">About</a> | <a href="#">Blog</a>
+            <br>
+            <a href="/policy">Usage policy</a> | <a href="#">TOR</a> | <a href="#">Doodles</a> | <a href="/forum">Forum</a>
+        </footer>
+        <div id="main-nav-welcome" class="welcome-message"></div>
+
+        <div class="bitcoin-address">BitCoin: 12WmEMVUBQm7U6FuERLLHf1iKkx7LnkKLG</div>
+        <div class="icons"><a href="#"><img src="/images/rss_icon.png" alt="RSS"></a></div>
+    </div>
+
+    <script src="/js/main.js" defer></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/home.js"></script>
+</body>
+</html>

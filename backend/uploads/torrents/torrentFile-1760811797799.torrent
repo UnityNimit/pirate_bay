@@ -1,0 +1,22 @@
+class AddSub {
+    double num1, num2;
+    void add() { System.out.println("Sum: " + (num1 + num2)); }
+    void sub() { System.out.println("Difference: " + (num1 - num2)); }
+}
+
+class MulDiv extends AddSub {
+    void mul() { System.out.println("Product: " + (num1 * num2)); }
+    void div() { System.out.println("Quotient: " + (num1 / num2)); }
+}
+
+public class MathOperations {
+    public static void main(String[] args) {
+        MulDiv calculator = new MulDiv();
+        calculator.num1 = 20;
+        calculator.num2 = 10;
+        calculator.add();
+        calculator.sub();
+        calculator.mul();
+        calculator.div();
+    }
+}

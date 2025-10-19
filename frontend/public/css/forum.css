@@ -1,0 +1,43 @@
+/* frontend/public/css/forum.css */
+
+.forum-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.forum-table th, .forum-table td {
+    padding: 10px;
+    border-bottom: 1px solid #444;
+    text-align: left;
+}
+
+.forum-table th {
+    background-color: #2c2c2c;
+}
+
+.forum-table .category-header td {
+    background-color: #333;
+    font-weight: bold;
+    font-size: 14px;
+    color: #e0e0e0;
+}
+
+.forum-name a {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.forum-description {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 3px;
+}
+
+.last-post-info {
+    font-size: 12px;
+}
+
+.stats-col {
+    text-align: center;
+    width: 80px;
+}

@@ -1,0 +1,20 @@
+/* frontend/public/css/about.css */
+
+/* Make the main content area narrower on the about page */
+#main-content {
+    max-width: 800px;
+}
+
+/* Specific text styling for the about page */
+.about-text {
+    line-height: 1.6;
+    text-align: left;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+}
+
+.about-text a {
+    border-bottom: 1px dotted #8ab4f8;
+}

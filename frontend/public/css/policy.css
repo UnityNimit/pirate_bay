@@ -1,0 +1,22 @@
+/* frontend/public/css/policy.css */
+
+/* Set a max-width for the content area on the policy page */
+#main-content {
+    max-width: 800px;
+}
+
+/* Specific text styling for the policy page */
+.policy-text {
+    line-height: 1.6;
+    text-align: left;
+}
+
+.policy-text h3 {
+    font-size: 14px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.policy-text p {
+    margin-bottom: 20px;
+}

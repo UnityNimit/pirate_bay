@@ -1,0 +1,138 @@
+#main-content {
+    max-width: 900px;
+}
+
+/* Main details box at the top */
+#details-frame {
+    background-color: #222;
+    padding: 15px;
+    border: 1px solid #444;
+}
+
+#details-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+    text-align: center;
+    color: #e0e0e0;
+}
+
+#details-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.info-col {
+    width: 48%;
+}
+
+#details-info dl { 
+    margin: 0; 
+}
+
+#details-info dt, 
+#details-info dd {
+    display: inline-block;
+    margin: 3px 0;
+    color: #aaa;
+}
+
+#details-info dt {
+    width: 80px;
+    font-weight: bold;
+    color: #e0e0e0;
+}
+
+#details-info dd {
+    width: calc(100% - 90px);
+}
+
+#info-hash {
+    font-family: monospace;
+    font-size: 12px;
+    word-break: break-all;
+    color: #aaa;
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* Download action links */
+.action-links {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.action-links a {
+    font-weight: bold;
+    font-size: 14px;
+    margin: 0 15px;
+    color: #90ee90;
+    cursor: pointer;
+}
+
+.action-links img {
+    vertical-align: middle;
+    margin-right: 5px;
+    filter: invert(1);
+    height: 16px;
+}
+
+.magnet-note {
+    text-align: center;
+    font-size: 11px;
+    color: #aaa;
+    margin-top: -10px;
+}
+
+/* Shared style for section titles */
+.description-title {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    font-weight: bold;
+    padding: 8px 10px;
+    margin-top: 25px;
+    border: 1px solid #444;
+    border-bottom: none;
+}
+
+/* Description box style */
+#description {
+    background-color: #1a1a1a;
+    border: 1px solid #444;
+    padding: 15px;
+    margin-top: 0;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    color: #ccc;
+    min-height: 50px;
+}
+
+/* File list styles */
+#file-list-frame {
+     background-color: #1a1a1a;
+     padding: 10px 15px;
+     margin-top: 0;
+     font-family: "Courier New", Courier, monospace;
+     font-size: 12px;
+     border: 1px solid #444;
+     color: #ccc;
+}
+
+#file-list-frame div {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+#file-list-frame div:last-child {
+    border-bottom: none;
+}
+
+/* Comments section placeholder */
+#comments-section {
+    margin-top: 20px;
+}

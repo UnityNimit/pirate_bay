@@ -1,0 +1,56 @@
+/* frontend/public/css/top.css */
+
+.top100-container {
+    display: flex;
+    justify-content: space-between;
+    line-height: 1.8;
+}
+
+.top100-col {
+    width: 48%;
+}
+
+.top-category {
+    margin-bottom: 25px;
+}
+
+.top-category h3 {
+    font-size: 18px;
+    margin: 0 0 5px 0;
+    font-weight: bold;
+}
+
+.top-category h3 a {
+    border-bottom: none;
+}
+
+.top-category p a {
+     border-bottom: 1px dotted #8ab4f8;
+}
+
+#total-top {
+    text-align: center;
+    margin-top: 30px;
+}
+
+#total-top a {
+    font-size: 20px;
+    font-weight: bold;
+    color: #90ee90;
+    border-bottom: 1px dotted #90ee90;
+}
+
+.top-list {
+    list-style-type: decimal;
+    padding-left: 20px;
+    margin: 10px 0 0 0;
+    line-height: 1.6;
+}
+
+.top-list li {
+    margin-bottom: 5px;
+}
+
+.top-list a {
+    border-bottom: 1px dotted #8ab4f8;
+}

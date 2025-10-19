@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - The Pirate Bay</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+    <!-- START: UNIVERSAL DYNAMIC HEADER -->
+    <div id="header-container">
+        <a href="/" id="logo"><img src="/images/logo_small.png" alt="The Pirate Bay Logo"></a>
+        <div id="search-nav-container">
+             <nav>
+                <a href="/search"><b>Search Torrents</b></a> | 
+                <a href="/top">Browse Torrents</a> | 
+                <a href="/top">Top 100</a>
+                <span id="nav-auth-links">
+                    | <a href="/login" id="nav-login">Login</a>
+                    | <a href="/register" id="nav-register">Register</a>
+                </span>
+                <span id="nav-user-links" style="display: none;">
+                    | <a id="nav-my-profile" href="#">My Profile</a>
+                    | <a href="/upload" id="nav-upload">Upload</a>
+                    | <a href="#" onclick="logout()" id="nav-logout"><b>Logout</b></a>
+                </span>
+             </nav>
+            <form id="searchform" action="/search" method="get">
+                <input type="text" id="searchBox" name="q" placeholder="Search here...">
+                <input type="submit" id="searchBtn" value="Pirate Search">
+            </form>
+            <div id="nav-welcome" class="welcome-message"></div>
+        </div>
+    </div>
+    <!-- END: UNIVERSAL DYNAMIC HEADER -->
+
+    <div id="title-bar"><h2 id="profile-title">Loading Profile...</h2></div>
+
+    <div id="main-content">
+        <div class="profile-header">
+            <div class="avatar-container">
+                <img src="/uploads/avatars/default.png" alt="User Avatar" id="profile-avatar-img">
+                <form id="avatar-form" style="display: none;">
+                    <label for="avatar-input" class="avatar-upload-label">Change</label>
+                    <input type="file" id="avatar-input" name="avatar" accept="image/*">
+                    <div id="avatar-message"></div>
+                </form>
+            </div>
+            <div class="user-info-container">
+                <h3 id="profile-username">...</h3>
+                <p id="profile-join-date">Member since...</p>
+                <div id="follow-btn-container"></div>
+                <div class="stats-bar">
+                    <div class="stat-item"><span id="upload-count">0</span><span>Uploads</span></div>
+                    <div class="stat-item"><span id="post-count">0</span><span>Posts</span></div>
+                    <div class="stat-item"><span id="download-count">0</span><span>Downloads</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="profile-tabs">
+            <button class="tab-link active" data-tab="uploads">Uploads</button>
+            <button class="tab-link" data-tab="bookmarks">Bookmarks</button>
+            <button class="tab-link" data-tab="posts">Forum Posts</button>
+            <button class="tab-link" data-tab="following">Following</button>
+            <button class="tab-link" data-tab="followers">Followers</button>
+            <button class="tab-link" data-tab="stats">Statistics</button>
+        </div>
+
+        <!-- Tab Content Panes -->
+        <div id="uploads" class="tab-content active"><p>Loading uploads...</p></div>
+        <div id="bookmarks" class="tab-content"><p>Loading bookmarks...</p></div>
+        <div id="posts" class="tab-content"><p>Loading posts...</p></div>
+        <div id="following" class="tab-content"><p>Loading following list...</p></div>
+        <div id="followers" class="tab-content"><p>Loading followers list...</p></div>
+        <div id="stats" class="tab-content">
+            <div class="chart-container">
+                <canvas id="activityChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- START: UNIVERSAL DYNAMIC FOOTER -->
+    <div id="footer">
+        <p><a href="#">ThePirateBay</a> | <a href="#">The Pirate Bay</a> | <a href="#">Piratebay proxy</a></p>
+        <p>
+            <span id="footer-auth-links">
+                <a href="/login">Login</a> |
+                <a href="/register">Register</a> |
+            </span>
+            <span id="footer-user-links" style="display: none;">
+                <a href="/upload">Upload Torrent</a> |
+                <a href="#" onclick="logout()"><b>Logout</b></a> |
+            </span>
+            <a href="#">Language</a> | <a href="/about">About</a> | <a href="#">Blog</a>
+        </p>
+        <p><a href="/policy">Usage policy</a> | <a href="#">TOR</a> | <a href="#">Doodles</a> | <a href="/forum">Forum</a></p>
+        <p id="bitcoin-address">BitCoin: <a href="#">12WmEMVUBQm7U6FuERLLHf1ikKx7LnkkLG</a></p>
+        <p><a href="#"><img class="rss-icon" src="/images/rss_icon.png" alt="RSS"></a></p>
+    </div>
+    <!-- END: UNIVERSAL DYNAMIC FOOTER -->
+
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/profile.js"></script>
+</body>
+</html>

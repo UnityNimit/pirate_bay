@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum Threads - The Pirate Bay</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/forum.css"> <!-- We can reuse the forum.css styles -->
+</head>
+<body>
+    <!-- Universal Dynamic Header -->
+    <div id="header-container"></div>
+
+    <div id="title-bar"><h2 id="forum-title">Loading Forum...</h2></div>
+
+    <div id="main-content">
+        <div class="breadcrumbs"><a href="/forum">Forums</a> &gt; <span id="forum-breadcrumb-name">...</span></div>
+        
+        <table class="forum-table" id="thread-list-table">
+            <thead>
+                <tr>
+                    <th style="width: 60%;">Thread / Author</th>
+                    <th class="stats-col">Replies</th>
+                    <th class="stats-col">Views</th> <!-- Views not implemented yet -->
+                    <th style="width: 25%;">Last Post</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="4" style="text-align: center;">Loading threads...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Universal Dynamic Footer -->
+    <div id="footer"></div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/thread-list.js"></script>
+</body>
+</html>

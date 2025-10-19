@@ -1,0 +1,24 @@
+{
+  "name": "pirate-bay-backend",
+  "version": "1.0.0",
+  "description": "Backend server for The Pirate Bay project.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.19.1",
+    "multer": "^2.0.2",
+    "parse-torrent": "^9.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}

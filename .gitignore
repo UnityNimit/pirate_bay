@@ -1,0 +1,16 @@
+# Dependencies
+/node_modules
+
+# Environment variables
+.env
+
+# macOS specific files
+.DS_Store
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Scripts for inputs and database seeding
+/backend/scripts/

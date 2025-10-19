@@ -1,0 +1,23 @@
+/* Styles for the upload form specifically */
+#upload-form textarea,
+#upload-form select {
+    border: 1px solid #555;
+    padding: 5px;
+    width: 95%;
+    background-color: #333;
+    color: #e0e0e0;
+    font-size: 14px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#upload-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+#upload-form input[type="file"] {
+    padding: 5px;
+    background-color: #333;
+    border: 1px solid #555;
+    width: 95%;
+}
