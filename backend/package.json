@@ -4,7 +4,7 @@
   "description": "Backend server for The Pirate Bay project.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "Your Name",
   "license": "ISC",
