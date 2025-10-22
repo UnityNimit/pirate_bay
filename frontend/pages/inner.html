@@ -12,19 +12,20 @@
     <div id="header-container">
         <a href="/" id="logo"><img src="/images/logo_small.png" alt="The Pirate Bay Logo"></a>
         <div id="search-nav-container">
-             <nav>
-                <a href="/search"><b>Search Torrents</b></a> | 
-                <a href="/top">Browse Torrents</a> | 
-                <a href="/top">Top 100</a>
+            <nav>
+                <a href="/search"><b>Browse All Torrents</b></a> |
+                <a href="/top">Trending Torrents</a> |
+                <a href="/recent">Recent Torrents</a> |
+                <a href="/forum">Forum</a>
                 <span id="nav-auth-links">
                     | <a href="/login" id="nav-login">Login</a>
                     | <a href="/register" id="nav-register">Register</a>
                 </span>
                 <span id="nav-user-links" style="display: none;">
+                    | <a id="nav-my-profile" href="#">Profile</a>
                     | <a href="/upload" id="nav-upload">Upload</a>
-                    | <a href="#" onclick="logout()" id="nav-logout"><b>Logout</b></a>
                 </span>
-             </nav>
+            </nav>
             <form id="searchform" action="/search" method="get">
                 <input type="text" id="searchBox" name="q" placeholder="Search here...">
                 <input type="submit" id="searchBtn" value="Pirate Search">
@@ -40,18 +41,26 @@
         <div class="breadcrumbs"><a href="/forum">Forums</a> &gt; <a id="breadcrumb-forum-link" href="#"><span id="thread-forum-name">...</span></a></div>
         
         <h1 class="thread-title" id="thread-title">Loading Thread...</h1>
+        
+        <!-- NEW: Pagination at the top -->
+        <div class="thread-actions">
+            <a href="#reply-box" class="reply-button">Post Reply</a>
+            <div class="pagination" id="pagination-container-top"></div>
+        </div>
 
         <div id="posts-container">
             <p style="text-align: center; color: #aaa;">Loading posts...</p>
         </div>
         
-        <!-- Pagination Container -->
-        <div class="pagination" id="pagination-container"></div>
+        <!-- Pagination at the bottom -->
+        <div class="thread-actions thread-actions-bottom">
+             <a href="#reply-box" class="reply-button">Post Reply</a>
+             <div class="pagination" id="pagination-container-bottom"></div>
+        </div>
 
         <div id="reply-box">
             <h3>Post a Reply</h3>
             <div id="reply-message" style="margin-bottom: 10px;"></div>
-            <!-- Simple Rich Text Editor Toolbar -->
             <div class="editor-toolbar">
                 <button id="btn-bold"><b>B</b></button>
                 <button id="btn-italic"><i>I</i></button>
@@ -66,19 +75,17 @@
 
     <!-- START: UNIVERSAL DYNAMIC FOOTER -->
     <div id="footer">
-        <p><a href="#">ThePirateBay</a> | <a href="#">The Pirate Bay</a> | <a href="#">Piratebay proxy</a></p>
         <p>
-            <span id="footer-auth-links">
-                <a href="/login">Login</a> |
-                <a href="/register">Register</a> |
-            </span>
-            <span id="footer-user-links" style="display: none;">
-                <a href="/upload">Upload Torrent</a> |
-                <a href="#" onclick="logout()"><b>Logout</b></a> |
-            </span>
-            <a href="#">Language</a> | <a href="/about">About</a> | <a href="#">Blog</a>
-        </p>
-        <p><a href="/policy">Usage policy</a> | <a href="#">TOR</a> | <a href="#">Doodles</a> | <a href="/forum">Forum</a></p>
+                <a href="/">ThePirateBay</a> | <a href="/">The Pirate Bay</a> | <a href="/">Piratebay proxy</a>
+            </p>
+            <p>
+                <a href="/forum">FAQ</a> | <a href="/forum">Guide</a> | <a href="/policy">Usage policy</a> | <a href="/dmca">DMCA Policy</a> | <a href="/about">About Us</a> | <a href="/legal">Legal</a>
+            </p>
+            <p>
+                <a href="/api-access">API Access</a> | <a href="/contact">Contact Us</a>
+                <!-- The dynamic Settings/Logout link will be injected here, including the leading '|' -->
+                <span id="footer-settings-link-container"></span>
+            </p>
         <p id="bitcoin-address">BitCoin: <a href="#">12WmEMVUBQm7U6FuERLLHf1ikKx7LnkkLG</a></p>
         <p><a href="#"><img class="rss-icon" src="/images/rss_icon.png" alt="RSS"></a></p>
     </div>

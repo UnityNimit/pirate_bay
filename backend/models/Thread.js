@@ -16,10 +16,14 @@ const threadSchema = new mongoose.Schema({
     required: true,
   },
   // We can add a 'views' count, 'lastPostDate' later if needed
+  isLocked: { // ADD THIS FIELD
+    type: Boolean,
+    default: false,
+  }
 }, {
   timestamps: true,
 });
 
 const Thread = mongoose.model('Thread', threadSchema);
 
-module.exports = Thread;
+module.exports = Thread;    

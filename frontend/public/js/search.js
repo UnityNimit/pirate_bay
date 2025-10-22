@@ -1,43 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Check the URL for a search query
     const params = new URLSearchParams(window.location.search);
-    const query = params.get('q'); // Gets the value of 'q' from "?q=value"
+    const query = params.get('q');
+    const categories = params.get('categories');
+    const page = parseInt(params.get('page')) || 1; // Get page from URL, default to 1
 
     const searchInfoSpan = document.getElementById('search-info');
+    const resultsCountSpan = document.getElementById('results-count');
+    const tableBody = document.getElementById('search-results-body');
+    const searchBox = document.getElementById('searchBox');
+
+    // Pre-fill the search box with the current query
+    if (query && searchBox) {
+        searchBox.value = query;
+    }
     
-    // Update the title based on whether it's a search or not
+    // Update the title bar
     if (query) {
         searchInfoSpan.textContent = `Search results for: "${query}"`;
+    } else if (categories) {
+        searchInfoSpan.textContent = `Browsing category: ${categories}`;
     } else {
         searchInfoSpan.textContent = 'All Torrents';
     }
 
-    const fetchAndDisplayTorrents = async () => {
-        const tableBody = document.querySelector('#searchResult tbody');
-        
-        // 2. Build the correct API URL
-        let apiUrl = '/api/torrents';
-        if (query) {
-            apiUrl = `/api/torrents?q=${query}`; // Append the search query to the API call
-        }
-
+    const fetchAndDisplayTorrents = async (currentPage) => {
         try {
-            const res = await fetch(apiUrl); // Use the dynamically built URL
-            if (!res.ok) {
-                throw new Error('Failed to fetch torrents');
-            }
-            const torrents = await res.json();
+            // Build the API URL with all parameters
+            const apiParams = new URLSearchParams({ page: currentPage });
+            if (query) apiParams.append('q', query);
+            if (categories) apiParams.append('categories', categories);
+            
+            const res = await fetch(`/api/torrents?${apiParams.toString()}`);
+            if (!res.ok) throw new Error('Failed to fetch torrents');
+            
+            const data = await res.json();
+            const { torrents, totalPages, totalTorrents } = data;
 
-            console.log(`[BROWSER LOG] Received ${torrents.length} torrents from the backend.`);
-
+            resultsCountSpan.textContent = `(Approx. ${totalTorrents} results found)`;
             tableBody.innerHTML = ''; 
 
             if (torrents.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">No torrents found for "${query}".</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">No torrents found matching your criteria.</td></tr>`;
                 return;
             }
 
-            // 3. Display the results (this part is the same as before)
             torrents.forEach((torrent, index) => {
                 const rowClass = index % 2 === 1 ? 'alt-row' : '';
                 const torrentRowHTML = `
@@ -58,11 +64,61 @@ document.addEventListener('DOMContentLoaded', () => {
                 tableBody.innerHTML += torrentRowHTML;
             });
 
+            displayPagination(currentPage, totalPages);
+
         } catch (error) {
             console.error('Error fetching torrents:', error);
             tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: red;">Could not load torrents.</td></tr>';
         }
     };
+
+    const displayPagination = (currentPage, totalPages) => {
+        const paginationContainerTop = document.getElementById('pagination-container-top');
+        const paginationContainerBottom = document.getElementById('pagination-container-bottom');
+        
+        
+        paginationContainerTop.innerHTML = '';
+        paginationContainerBottom.innerHTML = '';
+        if (totalPages <= 1) return;
+
+        let paginationHTML = '';
+        
+        // Simple pagination: show first, last, current, and nearby pages
+        const pagesToShow = new Set([1, totalPages, currentPage, currentPage - 1, currentPage + 1]);
+        
+        let lastPage = 0;
+        for (let i = 1; i <= totalPages; i++) {
+            if (pagesToShow.has(i)) {
+                if (i - lastPage > 1) {
+                    paginationHTML += `<span>... </span>`;
+                }
+                if (i === currentPage) {
+                    paginationHTML += `<b>${i}</b> `;
+                } else {
+                    paginationHTML += `<a href="#" class="page-link" data-page="${i}">${i}</a> `;
+                }
+                lastPage = i;
+            }
+        }
+        paginationContainerTop.innerHTML = paginationHTML;
+        paginationContainerBottom.innerHTML = paginationHTML;
+    };
+
+    // Event Delegation for Pagination Links
+    document.getElementById('main-content').addEventListener('click', (e) => {
+        if (e.target.classList.contains('page-link')) {
+            e.preventDefault();
+            const newPage = e.target.dataset.page;
+            
+            // Update URL without reloading page
+            const newParams = new URLSearchParams(window.location.search);
+            newParams.set('page', newPage);
+            window.history.pushState({}, '', `${window.location.pathname}?${newParams.toString()}`);
+            
+            // Fetch data for the new page
+            fetchAndDisplayTorrents(parseInt(newPage));
+        }
+    });
 
     function formatBytes(bytes, decimals = 2) {
         if (bytes === 0) return '0 Bytes';
@@ -73,5 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
-    fetchAndDisplayTorrents();
+    // Initial call to load data for the current page
+    fetchAndDisplayTorrents(page);
 });

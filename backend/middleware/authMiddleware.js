@@ -45,5 +45,14 @@ const identifyUser = async (req, res, next) => {
     next();
 };
 
+const moderator = (req, res, next) => {
+    // This middleware must run AFTER 'protect', so req.user will exist.
+    if (req.user && req.user.role === 'moderator') {
+        next(); // User is a moderator, proceed
+    } else {
+        res.status(403).json({ message: 'Forbidden: Not authorized as a moderator.' });
+    }
+};
+
 // --- UPDATE MODULE.EXPORTS ---
-module.exports = { protect, identifyUser };
+module.exports = { protect, identifyUser, moderator };

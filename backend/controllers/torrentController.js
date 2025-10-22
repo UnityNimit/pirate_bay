@@ -1,34 +1,42 @@
 const Torrent = require('../models/Torrent.js');
 const fs = require('fs');
 const parseTorrent = require('parse-torrent');
+const mongoose = require('mongoose'); // Import mongoose to check for valid ObjectIds
 
-// @desc    Get all torrents
-// @route   GET /api/torrents
-// @access  Public
+
+// --- HELPER FUNCTION to check for valid ObjectId ---
+const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
+
 const getTorrents = async (req, res) => {
   try {
-    const queryFilter = {};
+    const TORRENTS_PER_PAGE = 100; // Define how many torrents per page
+    const page = parseInt(req.query.page) || 1;
 
-    // Handle keyword search
+    const queryFilter = {};
     if (req.query.q) {
-      queryFilter.name = {
-        $regex: req.query.q,
-        $options: 'i',
-      };
+      queryFilter.name = { $regex: req.query.q, $options: 'i' };
     }
-    
-    // Handle category search
     if (req.query.categories) {
-      const categories = req.query.categories.split(','); // 'Video,Games' -> ['Video', 'Games']
+      const categories = req.query.categories.split(',');
       queryFilter.category = { $in: categories };
     }
 
-    const torrents = await Torrent.find(queryFilter).populate('uploader', 'username');
-    
-    console.log(`[API LOG] Found ${torrents.length} torrents. Sending to frontend.`);
+    const totalTorrents = await Torrent.countDocuments(queryFilter);
 
-    res.json(torrents);
+    const torrents = await Torrent.find(queryFilter)
+      .populate('uploader', 'username')
+      .sort({ seeders: -1 }) // Sort by most popular by default
+      .skip((page - 1) * TORRENTS_PER_PAGE)
+      .limit(TORRENTS_PER_PAGE);
+    
+    res.json({
+        torrents: torrents,
+        currentPage: page,
+        totalPages: Math.ceil(totalTorrents / TORRENTS_PER_PAGE),
+        totalTorrents: totalTorrents
+    });
   } catch (error) {
+    console.error("Get Torrents Error:", error);
     res.status(500).json({ message: 'Server Error' });
   }
 };
@@ -94,14 +102,17 @@ const uploadTorrent = async (req, res) => {
 
 const getTorrentById = async (req, res) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+        return res.status(400).json({ message: 'Invalid Torrent ID format.' });
+    }
     const torrent = await Torrent.findById(req.params.id).populate('uploader', 'username');
-
     if (torrent) {
       res.json(torrent);
     } else {
       res.status(404).json({ message: 'Torrent not found' });
     }
   } catch (error) {
+    console.error("Get Torrent By ID Error:", error);
     res.status(500).json({ message: 'Server Error' });
   }
 };
@@ -127,10 +138,6 @@ const getLuckyTorrent = async (req, res) => {
     }
 };
 
-
-// @desc    Get top torrents, optionally by category
-// @route   GET /api/torrents/top?category=Games
-// @access  Public
 const getTopTorrents = async (req, res) => {
   try {
     const filter = req.query.category ? { category: req.query.category } : {};
@@ -145,9 +152,6 @@ const getTopTorrents = async (req, res) => {
   }
 };
 
-// @desc    Track a download and update peer stats
-// @route   POST /api/torrents/:id/track
-// @access  Public
 const trackDownload = async (req, res) => {
   try {
     // We use $inc to atomically increment the values in the database.
@@ -171,4 +175,21 @@ const trackDownload = async (req, res) => {
   }
 };
 
-module.exports = { getTorrents, uploadTorrent, getTorrentById, getLuckyTorrent, getTopTorrents, trackDownload };
+const getRecentTorrents = async (req, res) => {
+    try {
+        const torrents = await Torrent.find({})
+            .sort({ createdAt: -1 })
+            .limit(50)
+            .populate('uploader', 'username');
+
+        // Filter out any torrents where the uploader might have been deleted (robustness)
+        const validTorrents = torrents.filter(torrent => torrent.uploader !== null);
+
+        res.json(validTorrents);
+    } catch (error) {
+        console.error("Get Recent Torrents Error:", error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+module.exports = { getTorrents, uploadTorrent, getTorrentById, getLuckyTorrent, getTopTorrents, trackDownload, getRecentTorrents };

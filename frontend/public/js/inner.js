@@ -1,20 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
-    const threadId = params.get('threadId');
-
+    // --- ELEMENT SELECTORS ---
     const pageTitle = document.getElementById('page-title');
     const breadcrumbForumLink = document.getElementById('breadcrumb-forum-link');
     const threadForumNameSpan = document.getElementById('thread-forum-name');
     const threadTitleH1 = document.getElementById('thread-title');
     const postsContainer = document.getElementById('posts-container');
-    const paginationContainer = document.getElementById('pagination-container');
+    const paginationContainerTop = document.getElementById('pagination-container-top');
+    const paginationContainerBottom = document.getElementById('pagination-container-bottom');
     const replyTextarea = document.getElementById('reply-textarea');
     const submitReplyBtn = document.getElementById('submit-reply-btn');
     const replyMessageDiv = document.getElementById('reply-message');
-
-    let currentThread = null;
+    
+    // --- GET DATA FROM URL & LOCALSTORAGE ---
+    const params = new URLSearchParams(window.location.search);
+    const threadId = params.get('threadId');
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    
+    let currentThread = null;
 
+    // --- INITIAL VALIDATION ---
     if (!threadId) {
         threadTitleH1.textContent = 'Error';
         postsContainer.innerHTML = '<p style="text-align: center; color: red;">No Thread ID was provided in the URL.</p>';
@@ -22,9 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // --- MAIN DATA FETCHING LOGIC ---
     const fetchThreadAndPosts = async (page = 1) => {
         try {
-            // Fetch thread details (only needs to be done once, but we'll keep it simple)
             if (!currentThread) {
                 const threadRes = await fetch(`/api/threads/${threadId}`);
                 if (!threadRes.ok) throw new Error('Failed to fetch thread details.');
@@ -36,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 threadTitleH1.textContent = currentThread.title;
             }
 
-            // Fetch posts for the requested page
             const postsRes = await fetch(`/api/threads/${threadId}/posts?page=${page}`);
             if (!postsRes.ok) throw new Error('Failed to fetch posts.');
             const data = await postsRes.json();
@@ -51,27 +54,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // --- DISPLAY POSTS (with dynamic avatars) ---
     const displayPosts = (posts) => {
         postsContainer.innerHTML = '';
         if (posts.length === 0) {
             postsContainer.innerHTML = `<p style="text-align: center;">No posts yet. Be the first to reply!</p>`;
             return;
         }
+
         posts.forEach(post => {
+            // --- THIS IS THE FIX for dynamic avatars ---
+            const avatarSrc = post.user?.avatarPath ? `/${post.user.avatarPath.replace(/\\/g, '/')}` : '/uploads/avatars/default.png';
+
             const postHTML = `
-                <div class="post">
+                <div class="post" id="post-${post._id}">
                     <div class="user-info">
-                        <img src="https://i.imgur.com/8z1J7V8.png" alt="User Avatar" class="user-avatar">
-                        <h3><a href="#">${post.user ? post.user.username : 'Deleted User'}</a></h3>
+                        <img src="${avatarSrc}" alt="User Avatar" class="user-avatar">
+                        <h3><a href="/profile?user=${post.user ? post.user.username : ''}">${post.user ? post.user.username : 'Deleted User'}</a></h3>
                         <p>Member</p>
                         <p>Joined: ${post.user ? new Date(post.user.createdAt).toLocaleDateString() : 'N/A'}</p>
                     </div>
                     <div class="post-content">
                         <div class="post-header">Posted: ${new Date(post.createdAt).toLocaleString()}</div>
-                        <div class="post-body">
-                            <div>${post.content}</div> <!-- Use div instead of p for blockquote compatibility -->
+                        <div class="post-body" id="post-body-${post._id}">${post.content}</div>
+                        <div class="post-footer">
+                            <a href="#" class="quote-btn" data-post-id="${post._id}" data-username="${post.user ? post.user.username : 'User'}">Quote</a>
                         </div>
-                        <div class="post-footer"><a href="#">Quote</a> <a href="#">Report</a></div>
                     </div>
                 </div>
             `;
@@ -79,9 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // --- DISPLAY PAGINATION (for both top and bottom) ---
     const displayPagination = (currentPage, totalPages) => {
-        paginationContainer.innerHTML = '';
+        paginationContainerTop.innerHTML = '';
+        paginationContainerBottom.innerHTML = '';
         if (totalPages <= 1) return;
+
         let paginationHTML = `Page: `;
         for (let i = 1; i <= totalPages; i++) {
             if (i === currentPage) {
@@ -90,15 +101,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 paginationHTML += `<a href="#" class="page-link" data-page="${i}">${i}</a> `;
             }
         }
-        paginationContainer.innerHTML = paginationHTML;
+        paginationContainerTop.innerHTML = paginationHTML;
+        paginationContainerBottom.innerHTML = paginationHTML;
     };
 
-    // Event Delegation for Pagination Links
+    // --- EVENT DELEGATION (for pagination and new quote button) ---
     document.getElementById('main-content').addEventListener('click', (e) => {
+        // Handle Pagination clicks
         if (e.target.classList.contains('page-link')) {
             e.preventDefault();
             const page = e.target.dataset.page;
             fetchThreadAndPosts(page);
+        }
+
+        // --- THIS IS THE FIX for the Quote button ---
+        if (e.target.classList.contains('quote-btn')) {
+            e.preventDefault();
+            const postId = e.target.dataset.postId;
+            const username = e.target.dataset.username;
+            const postBody = document.getElementById(`post-body-${postId}`);
+            
+            // Get the raw text content, not the HTML
+            let rawContent = postBody.innerText || postBody.textContent;
+            
+            // Format the quote
+            const quoteText = `[quote=${username}]${rawContent.trim()}[/quote]\n`;
+            
+            // Add to textarea and focus
+            replyTextarea.value = quoteText + replyTextarea.value;
+            replyTextarea.focus();
+            replyTextarea.scrollTop = 0; // Scroll to the top of the textarea
         }
     });
 

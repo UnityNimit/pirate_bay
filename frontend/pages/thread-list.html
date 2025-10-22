@@ -5,34 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum Threads - The Pirate Bay</title>
     <link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/forum.css"> <!-- We can reuse the forum.css styles -->
+    <link rel="stylesheet" href="/css/forum.css">
+    <link rel="stylesheet" href="/css/settings.css">
 </head>
 <body>
-    <!-- Universal Dynamic Header -->
-    <div id="header-container"></div>
+    <!-- START: UNIVERSAL DYNAMIC HEADER -->
+    <div id="header-container">
+        <a href="/" id="logo"><img src="/images/logo_small.png" alt="The Pirate Bay Logo"></a>
+        <div id="search-nav-container">
+            <nav>
+                <a href="/search"><b>Browse All Torrents</b></a> |
+                <a href="/top">Trending Torrents</a> |
+                <a href="/recent">Recent Torrents</a> |
+                <a href="/forum">Forum</a>
+                <span id="nav-auth-links">
+                    | <a href="/login" id="nav-login">Login</a>
+                    | <a href="/register" id="nav-register">Register</a>
+                </span>
+                <span id="nav-user-links" style="display: none;">
+                    | <a id="nav-my-profile" href="#">Profile</a>
+                    | <a href="/upload" id="nav-upload">Upload</a>
+                </span>
+            </nav>
+            <form id="searchform" action="/search" method="get">
+                <input type="text" id="searchBox" name="q" placeholder="Search here...">
+                <input type="submit" id="searchBtn" value="Pirate Search">
+            </form>
+            <div id="nav-welcome" class="welcome-message"></div>
+        </div>
+    </div>
+    <!-- END: UNIVERSAL DYNAMIC HEADER -->
 
     <div id="title-bar"><h2 id="forum-title">Loading Forum...</h2></div>
 
     <div id="main-content">
         <div class="breadcrumbs"><a href="/forum">Forums</a> &gt; <span id="forum-breadcrumb-name">...</span></div>
         
+        <!-- Create Thread Button & Form -->
+        <div id="create-thread-container" style="display: none; margin-bottom: 20px;">
+            <button id="show-thread-form-btn">Create New Thread</button>
+            <div id="create-thread-form" class="settings-container" style="display: none; margin-top: 15px;">
+                <h3>New Thread</h3>
+                <div id="thread-message" style="display: none;"></div>
+                <label for="thread-title-input">Thread Title</label>
+                <input type="text" id="thread-title-input" required>
+                <label for="thread-content-input">First Post</label>
+                <textarea id="thread-content-input" rows="5" required></textarea>
+                <button id="submit-thread-btn">Post Thread</button>
+            </div>
+        </div>
+
         <table class="forum-table" id="thread-list-table">
             <thead>
                 <tr>
-                    <th style="width: 60%;">Thread / Author</th>
+                    <th style="width: 45%;">Thread / Author</th>
                     <th class="stats-col">Replies</th>
-                    <th class="stats-col">Views</th> <!-- Views not implemented yet -->
-                    <th style="width: 25%;">Last Post</th>
+                    <th class="stats-col">Views</th>
+                    <th style="width: 20%;">Last Post</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="thread-list-table-body">
                 <tr><td colspan="4" style="text-align: center;">Loading threads...</td></tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Universal Dynamic Footer -->
-    <div id="footer"></div>
+    <!-- START: UNIVERSAL DYNAMIC FOOTER -->
+    <div id="footer">
+        <p>
+                <a href="/">ThePirateBay</a> | <a href="/">The Pirate Bay</a> | <a href="/">Piratebay proxy</a>
+            </p>
+            <p>
+                <a href="/forum">FAQ</a> | <a href="/forum">Guide</a> | <a href="/policy">Usage policy</a> | <a href="/dmca">DMCA Policy</a> | <a href="/about">About Us</a> | <a href="/legal">Legal</a>
+            </p>
+            <p>
+                <a href="/api-access">API Access</a> | <a href="/contact">Contact Us</a>
+                <!-- The dynamic Settings/Logout link will be injected here, including the leading '|' -->
+                <span id="footer-settings-link-container"></span>
+            </p>
+        <p id="bitcoin-address">BitCoin: <a href="#">12WmEMVUBQm7U6FuERLLHf1ikKx7LnkkLG</a></p>
+        <p><a href="#"><img class="rss-icon" src="/images/rss_icon.png" alt="RSS"></a></p>
+    </div>
+    <!-- END: UNIVERSAL DYNAMIC FOOTER -->
 
     <script src="/js/auth.js"></script>
     <script src="/js/thread-list.js"></script>

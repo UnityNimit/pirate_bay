@@ -1,24 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const { 
-    registerUser, 
-    loginUser, 
-    getUserProfile, 
-    updateUserAvatar, 
-    getUserUploads, 
+const {
+    registerUser,
+    loginUser,
+    getUserProfile,
+    updateUserAvatar,
+    getUserUploads,
     getUserPosts,
     followUser,
     unfollowUser,
     bookmarkTorrent,
-    unbookmarkTorrent
-} = require('../controllers/userController.js');
-const { protect, identifyUser } = require('../middleware/authMiddleware.js');
+    unbookmarkTorrent, updateUserProfile, changeUserPassword, adminUpdateUserAvatar } = require('../controllers/userController.js');
+const { protect, identifyUser, moderator } = require('../middleware/authMiddleware.js');
 const multer = require('multer');
 const path = require('path');
+
 
 // --- (Multer config is unchanged) ---
 const avatarStorage = multer.diskStorage({ /* ... */ });
 const uploadAvatar = multer({ storage: avatarStorage });
+
+router.put('/profile/:userId/avatar', protect, moderator, uploadAvatar.single('avatar'), adminUpdateUserAvatar);
 
 
 // --- Public Routes ---
@@ -31,6 +33,9 @@ router.post('/login', loginUser);
 // Routes for fetching tab content (public)
 router.get('/profile/:username/uploads', getUserUploads);
 router.get('/profile/:username/posts', getUserPosts);
+
+router.route('/profile').put(protect, updateUserProfile);
+router.route('/password').put(protect, changeUserPassword);
 
 // The general profile route is now LAST among the profile routes
 router.get('/profile/:username', identifyUser, getUserProfile);

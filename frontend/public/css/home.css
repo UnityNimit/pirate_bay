@@ -14,6 +14,17 @@ header img {
     height: auto;
 }
 
+/* Homepage main navigation */
+#main-nav {
+    margin: 20px 0;
+}
+#main-nav a {
+    margin: 0 10px;
+    color: #8ab4f8;
+    text-decoration: none;
+    border-bottom: 1px dotted #8ab4f8;
+}
+
 /* Homepage Search Form */
 .search-form {
     margin: 20px 0;
@@ -48,36 +59,46 @@ header img {
     cursor: pointer;
 }
 
-/* Homepage Proxy List */
-.proxy-list {
+/* NEW: Style for the Welcome Message that replaces the proxy list */
+.welcome-message-home {
     font-size: 16px;
     font-weight: bold;
     margin: 20px 0;
+    color: #90ee90;
 }
 
-/* Advertisement Box Styles (Only on homepage) */
-.ad-box {
-    position: fixed;
-    width: 180px;
-    z-index: 1000;
-    background-color: #121212;
-    border: 1px solid #555;
-    padding: 5px;
+/* Homepage Footer (uses global styles, but can add specifics here if needed) */
+footer {
+    margin-top: 20px;
+    font-size: 12px;
 }
 
-#leftAdTop { left: 20px; top: 15%; }
-#leftAdBottom { left: 20px; top: 55%; }
-#rightAd { right: 20px; top: 50%; transform: translateY(-50%); }
+footer p {
+    margin: 5px 0;
+}
 
-.ad-box img { width: 100%; display: block; }
+footer a {
+    margin: 0 5px;
+    color: #8ab4f8;
+    text-decoration: none;
+    border-bottom: 1px dotted #8ab4f8;
+}
 
-.close-btn {
-    position: absolute;
-    top: -10px;
-    right: 1px;
-    font-size: 24px;
-    color: #e0e0e0;
-    cursor: pointer;
-    font-weight: bold;
-    text-shadow: 0 0 2px #000;
+.bitcoin-address {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+.icons {
+    margin-top: 10px;
+}
+
+.icons img {
+    width: 16px;
+    height: 16px;
+    margin: 0 5px;
+}
+.icons .rss-icon {
+    filter: invert(1);
 }

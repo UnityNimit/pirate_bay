@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Torrent'
   }],
+  role: {
+    type: String,
+    enum: ['user', 'moderator'],
+    default: 'user',
+  }
   
 }, {
   timestamps: true,

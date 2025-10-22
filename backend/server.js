@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
 
 const pagesPath = path.join(__dirname, '..', 'frontend', 'pages');
 app.get('/', (req, res) => res.sendFile(path.join(pagesPath, 'home.html')));
-const pages = ['about', 'forum', 'inner', 'login', 'policy', 'register', 'search', 'top', 'torrent', 'upload', 'thread-list', 'profile'];
+const pages = ['about', 'forum', 'inner', 'login', 'policy', 'register', 'search', 'top', 'torrent', 'upload', 'thread-list', 'profile', 'recent', 'settings', 'api-access', 'contact', 'dmca', 'legal'];
 pages.forEach(page => {
     app.get(`/${page}`, (req, res) => {
         res.sendFile(path.join(pagesPath, `${page}.html`));

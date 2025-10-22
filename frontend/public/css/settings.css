@@ -1,0 +1,136 @@
+/* frontend/public/css/settings.css */
+
+/* Main container for the settings page content */
+.settings-container {
+    max-width: none; /* Ensures the container is full-width like other pages */
+    margin: 20px 0;  /* Replaces centered margin */
+    background: #1e1e1e;
+    border: 1px solid #444;
+    padding: 20px;
+}
+
+.settings-container h3 {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #555;
+    padding-bottom: 10px;
+}
+
+.settings-container form {
+    margin-bottom: 25px;
+}
+.settings-container form:last-child {
+    margin-bottom: 0;
+}
+
+.settings-container label {
+    display: block;
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 5px;
+}
+
+.settings-container input,
+.settings-container textarea {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.settings-container input:disabled {
+    background-color: #2a2a2a;
+    color: #777;
+    cursor: not-allowed;
+}
+
+/* Message Styles for forms */
+#profile-message, #password-message, #forum-message, #thread-message {
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 12px;
+    border-radius: 0;
+    display: none;
+}
+#profile-message.success, #password-message.success {
+    display: block; background-color: #2e7d32; color: #fff;
+}
+#profile-message.error, #password-message.error {
+    display: block; background-color: #c62828; color: #fff;
+}
+
+/* Styles for the new Advanced Settings section */
+.settings-group {
+    margin-bottom: 25px;
+}
+.settings-group:last-child {
+    margin-bottom: 0;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #333;
+}
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-label {
+    color: #ccc;
+}
+.setting-label strong {
+    font-weight: bold;
+    color: #e0e0e0;
+}
+.setting-label p {
+    font-size: 11px;
+    color: #888;
+    margin: 3px 0 0 0;
+}
+
+.setting-control select, .setting-control input {
+    width: 150px;
+}
+
+/* Basic toggle switch style for non-functional toggles */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+.toggle-switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #555;
+    transition: .4s;
+    border-radius: 0; /* Square slider */
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 0; /* Square slider knob */
+}
+input:checked + .slider { 
+    background-color: #8ab4f8; 
+}
+input:checked + .slider:before { 
+    transform: translateX(20px); 
+}

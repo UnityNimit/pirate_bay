@@ -1,23 +1,59 @@
-/* Styles for the upload form specifically */
-#upload-form textarea,
-#upload-form select {
-    border: 1px solid #555;
-    padding: 5px;
-    width: 95%;
-    background-color: #333;
-    color: #e0e0e0;
+/* --- NEW STYLES for Integrated Bookmark Button --- */
+.action-links {
+    display: flex; /* This is key to putting buttons side-by-side */
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Space between the buttons */
+    padding: 20px 0;
+}
+
+.action-links a,
+.action-links button {
+    font-weight: bold;
     font-size: 14px;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
-#upload-form textarea {
-    height: 120px;
-    resize: vertical;
+/* Specific style for the main download link */
+.download-link {
+    color: #90ee90; /* Green color for primary action */
 }
 
-#upload-form input[type="file"] {
-    padding: 5px;
-    background-color: #333;
+/* Style for the bookmark button */
+#bookmark-btn {
+    background: none;
     border: 1px solid #555;
-    width: 95%;
+    color: #aaa;
+    padding: 8px 12px;
+    transition: all 0.2s ease-in-out;
+}
+
+#bookmark-btn:hover {
+    border-color: #8ab4f8;
+    color: #8ab4f8;
+}
+
+/* Style for the icon inside the button */
+#bookmark-btn img {
+    height: 16px;
+    width: 16px;
+    margin-right: 8px;
+    filter: invert(70%); /* Default gray icon */
+    transition: filter 0.2s;
+}
+
+#bookmark-btn:hover img {
+    filter: invert(1); /* White icon on hover */
+}
+
+/* Style for when the torrent IS bookmarked */
+#bookmark-btn.bookmarked {
+    border-color: #ffd700; /* Gold border */
+    color: #ffd700; /* Gold text */
+}
+
+#bookmark-btn.bookmarked img {
+    filter: invert(80%) sepia(100%) saturate(500%) hue-rotate(350deg); /* Gold icon */
 }

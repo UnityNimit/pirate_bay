@@ -10,10 +10,12 @@ const forumSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // We can add counts here later or calculate them on the fly
-}, {
-  timestamps: true,
-});
+  type: {
+    type: String,
+    enum: ['forum', 'faq', 'guide'],
+    default: 'forum',
+  }
+}, { timestamps: true });
 
 const Forum = mongoose.model('Forum', forumSchema);
 

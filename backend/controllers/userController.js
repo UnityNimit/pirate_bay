@@ -34,6 +34,7 @@ const registerUser = async (req, res) => {
         _id: user._id,
         username: user.username,
         email: user.email,
+        role: user.role,
         token: generateToken(user._id),
       });
     } else {
@@ -44,9 +45,6 @@ const registerUser = async (req, res) => {
   }
 };
 
-// @desc    Auth user & get token
-// @route   POST /api/users/login
-// @access  Public
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -58,6 +56,10 @@ const loginUser = async (req, res) => {
         _id: user._id,
         username: user.username,
         email: user.email,
+        // --- THIS IS THE FIX ---
+        // We must include the user's role in the login response
+        role: user.role,
+        // --- END OF FIX ---
         token: generateToken(user._id),
       });
     } else {
@@ -267,6 +269,74 @@ const unbookmarkTorrent = async (req, res) => {
     }
 };
 
+
+// @desc    Update user's own profile (e.g., email)
+// @route   PUT /api/users/profile
+// @access  Private
+const updateUserProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+
+        if (user) {
+            user.email = req.body.email || user.email;
+            // You can add other updatable fields here later if you want
+
+            const updatedUser = await user.save();
+
+            // We need to return a new token because if the user ID or other
+            // payload data changes, the old token becomes outdated.
+            // In our case, it doesn't, but this is good practice.
+            res.json({
+                _id: updatedUser._id,
+                username: updatedUser.username,
+                email: updatedUser.email,
+                avatarPath: updatedUser.avatarPath,
+                token: generateToken(updatedUser._id), // Return a fresh token
+            });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// @desc    Change user's own password
+// @route   PUT /api/users/password
+// @access  Private
+const changeUserPassword = async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+
+    try {
+        const user = await User.findById(req.user.id);
+
+        if (user && (await user.matchPassword(currentPassword))) {
+            user.password = newPassword;
+            await user.save();
+            res.json({ message: 'Password updated successfully.' });
+        } else {
+            res.status(401).json({ message: 'Invalid current password.' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+
+const adminUpdateUserAvatar = async (req, res) => {
+try {
+const user = await User.findById(req.params.userId);
+if (user && req.file) {
+user.avatarPath = req.file.path;
+await user.save();
+res.json({ message: 'Avatar updated successfully', avatarPath: user.avatarPath });
+} else {
+res.status(404).json({ message: 'User not found or no file provided.' });
+}
+} catch (error) { res.status(500).json({ message: 'Server Error' }); }
+};
+
+
 // --- UPDATE MODULE.EXPORTS ---
 module.exports = { 
     registerUser, 
@@ -278,5 +348,4 @@ module.exports = {
     followUser,
     unfollowUser,
     bookmarkTorrent,
-    unbookmarkTorrent
-};
+   unbookmarkTorrent, updateUserProfile, changeUserPassword, adminUpdateUserAvatar };

@@ -1,0 +1,35 @@
+/* Styles for simple informational pages like Legal, Contact, etc. */
+.info-content {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 5px;
+    text-align: left;
+    line-height: 1.7;
+}
+
+.info-content h3 {
+    font-size: 20px;
+    margin: 0 0 20px 0;
+    border-bottom: 1px solid #555;
+    padding-bottom: 15px;
+}
+
+.info-content p {
+    margin-bottom: 15px;
+    color: #ccc;
+}
+
+.info-content a {
+    border-bottom: 1px dotted #8ab4f8;
+}
+
+.info-content ul {
+    padding-left: 20px;
+}
+
+.info-content li {
+    margin-bottom: 10px;
+}
