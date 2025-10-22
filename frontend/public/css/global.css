@@ -17,9 +17,26 @@ a:hover { text-decoration: underline; }
 #logo { margin-right: 20px; margin-left: -60px; }
 #logo img { height: 100px; }
 #search-nav-container { padding-top: 10px; }
+
+/* --- FIX: HEADER LINK STYLES --- */
 #header-container nav { margin-bottom: 15px; }
-#header-container nav a { font-weight: normal; border-bottom: 1px dotted #8ab4f8; margin: 0 5px; font-size: 14px; }
-#header-container nav a b, #header-container nav a.active { font-weight: bold; }
+#header-container nav a {
+    font-weight: normal;
+    border-bottom: none; /* REMOVED dotted underline */
+    margin: 0 5px;
+    font-size: 14px;
+    text-decoration: none;
+}
+#header-container nav a:hover {
+    text-decoration: underline;
+}
+#header-container nav a b, 
+#header-container nav a.active b {
+    font-weight: bold;
+    color: #fff; /* Make active link brighter */
+}
+/* --- END OF FIX --- */
+
 #searchBox { vertical-align: middle; }
 #searchBtn { margin-left: 5px; }
 .welcome-message { color: #90ee90; font-size: 12px; margin-top: 10px; text-align: left; }
@@ -28,15 +45,18 @@ a:hover { text-decoration: underline; }
 #title-bar h2 { font-weight: bold; font-size: 16px; margin: 0; }
 #main-content { width: 90%; margin: 20px auto; }
 
-/* --- NEW: UNIVERSAL BUTTON, INPUT, AND TEXTAREA STYLES --- */
+/* --- FIX: UNIVERSAL BUTTON, INPUT, AND TEXTAREA STYLES --- */
+input, select, textarea, button {
+    font-family: Verdana, Arial, Helvetica, sans-serif; /* Universal font for all form elements */
+}
+
 input[type="text"], input[type="email"], input[type="password"], textarea, select {
     background-color: #333;
     color: #e0e0e0;
     border: 1px solid #555;
     padding: 5px;
     font-size: 14px;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    border-radius: 0; /* NO rounded corners */
+    border-radius: 0;
     box-sizing: border-box;
 }
 
@@ -47,7 +67,6 @@ input[type="file"] {
     padding: 3px;
     font-size: 12px;
 }
-/* Style the file input button */
 input[type="file"]::-webkit-file-upload-button {
     background: #555;
     color: #e0e0e0;
@@ -56,25 +75,22 @@ input[type="file"]::-webkit-file-upload-button {
     border-radius: 0;
     cursor: pointer;
 }
-input[type="file"]::-webkit-file-upload-button:hover {
-    background: #666;
-}
+input[type="file"]::-webkit-file-upload-button:hover { background: #666; }
 
-/* The new universal button class */
-.btn, input[type="submit"], button {
+.btn, input[type="submit"], input[type="button"], button {
     background-color: #333;
     color: #e0e0e0;
     border: 1px solid #555;
     padding: 5px 12px;
     font-size: 14px;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
     cursor: pointer;
-    border-radius: 0; /* NO rounded corners */
+    border-radius: 0;
     vertical-align: middle;
 }
-.btn:hover, input[type="submit"]:hover, button:hover {
+.btn:hover, input[type="submit"]:hover, input[type="button"]:hover, button:hover {
     background-color: #444;
 }
+
 
 .pagination {
     font-size: 12px;
@@ -95,27 +111,13 @@ input[type="file"]::-webkit-file-upload-button:hover {
 }
 
 /* === UNIVERSAL FOOTER === */
-#footer {
-    text-align: center;
-    margin-top: 40px;
-    padding-bottom: 20px;
-    font-size: 12px;
+#footer { text-align: center; margin-top: 40px; padding-bottom: 20px; font-size: 12px; }
+#footer p { margin: 5px 0; }
+#footer a { margin: 0 5px; border-bottom: 1px dotted #8ab4f8; }
+/* --- FIX: FOOTER ACTIVE LINK --- */
+#footer a.active b {
+    color: #fff;
 }
-
-#footer p {
-    margin: 5px 0;
-}
-
-#footer a {
-    margin: 0 5px;
-    border-bottom: 1px dotted #8ab4f8;
-}
-
-#footer #bitcoin-address a {
-    border-bottom: none;
-    color: #aaa;
-}
-
-#footer .rss-icon {
-    filter: invert(1);
-}
+/* --- END OF FIX --- */
+#footer #bitcoin-address a { border-bottom: none; color: #aaa; }
+#footer .rss-icon { filter: invert(1); }

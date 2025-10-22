@@ -1,104 +1,43 @@
 /* frontend/public/css/home.css */
 
-/* Homepage-specific container */
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 20px;
-}
+.container { max-width: 800px; margin: 0 auto; text-align: center; padding: 20px; }
+header img { max-width: 300px; height: auto; }
 
-/* Homepage header logo */
-header img {
-    max-width: 300px;
-    height: auto;
-}
-
-/* Homepage main navigation */
-#main-nav {
-    margin: 20px 0;
-}
+/* --- FIX: HOMEPAGE NAV LINK STYLES --- */
+#main-nav { margin: 20px 0; }
 #main-nav a {
     margin: 0 10px;
     color: #8ab4f8;
     text-decoration: none;
-    border-bottom: 1px dotted #8ab4f8;
+    border-bottom: none; /* REMOVED dotted underline */
 }
-
-/* Homepage Search Form */
-.search-form {
-    margin: 20px 0;
+#main-nav a:hover {
+    text-decoration: underline;
 }
-
-.search-form input[type="text"] {
-    width: 300px;
-    padding: 5px;
-    background-color: #333;
-    border: 1px solid #555;
-    color: #e0e0e0;
+#main-nav a.active b {
+    color: #fff; /* Make active link brighter */
 }
+/* --- END OF FIX --- */
 
-.search-options {
-    margin-top: 10px;
-}
+.search-form { margin: 20px 0; }
+.search-form input[type="text"] { width: 300px; padding: 5px; background-color: #333; border: 1px solid #555; color: #e0e0e0; }
+.search-options { margin-top: 10px; }
+.search-options label { margin: 0 10px; }
+.search-buttons { margin-top: 10px; }
 
-.search-options label {
-    margin: 0 10px;
-}
-
-.search-buttons {
-    margin-top: 10px;
-}
-
+/* --- FIX: Search Button Font --- */
 .search-buttons input {
-    padding: 5px 10px;
-    margin: 0 5px;
-    background-color: #333;
-    color: #e0e0e0;
-    border: 1px solid #555;
-    cursor: pointer;
-}
-
-/* NEW: Style for the Welcome Message that replaces the proxy list */
-.welcome-message-home {
-    font-size: 16px;
-    font-weight: bold;
-    margin: 20px 0;
-    color: #90ee90;
-}
-
-/* Homepage Footer (uses global styles, but can add specifics here if needed) */
-footer {
-    margin-top: 20px;
-    font-size: 12px;
-}
-
-footer p {
-    margin: 5px 0;
-}
-
-footer a {
-    margin: 0 5px;
-    color: #8ab4f8;
-    text-decoration: none;
-    border-bottom: 1px dotted #8ab4f8;
-}
-
-.bitcoin-address {
-    margin-top: 20px;
-    font-size: 12px;
-    color: #aaa;
-}
-
-.icons {
-    margin-top: 10px;
-}
-
-.icons img {
-    width: 16px;
-    height: 16px;
+    /* Styles are now inherited from global.css, ensuring consistent font */
     margin: 0 5px;
 }
-.icons .rss-icon {
-    filter: invert(1);
-}
+
+.welcome-message-home { font-size: 16px; font-weight: bold; margin: 20px 0; color: #90ee90; }
+
+footer { margin-top: 20px; font-size: 12px; }
+footer p { margin: 5px 0; }
+footer a { margin: 0 5px; color: #8ab4f8; text-decoration: none; border-bottom: 1px dotted #8ab4f8; }
+
+.bitcoin-address { margin-top: 20px; font-size: 12px; color: #aaa; }
+.icons { margin-top: 10px; }
+.icons img { width: 16px; height: 16px; margin: 0 5px; }
+.icons .rss-icon { filter: invert(1); }
