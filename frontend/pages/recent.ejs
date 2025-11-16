@@ -1,0 +1,23 @@
+<%- include('_header', { title: 'Recent Torrents - The Pirate Bay', css: 'search' }) %>
+
+<div id="results-info-bar">
+    <span id="search-info">Recent Torrents</span>
+</div>
+
+<div id="main-content">
+    <table id="searchResult">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th class="col-se-le">SE</th>
+                <th class="col-se-le">LE</th>
+            </tr>
+        </thead>
+        <tbody id="recent-torrents-body">
+            <tr><td colspan="4" style="text-align: center;">Loading recent torrents...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<%- include('_footer', { script: 'recent' }) %>

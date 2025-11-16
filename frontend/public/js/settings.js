@@ -1,13 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-    // --- Authentication Check ---
     if (!userInfo || !userInfo.token) {
         window.location.href = '/login';
         return;
     }
-
-    // --- Element Selectors ---
+    
     const profileForm = document.getElementById('profile-update-form');
     const passwordForm = document.getElementById('password-change-form');
     const usernameInput = document.getElementById('username');
@@ -76,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             passwordMessage.textContent = 'Password changed successfully!';
             passwordMessage.className = 'success';
-            passwordForm.reset(); // Clear the form fields
+            passwordForm.reset();
         } catch (error) {
             passwordMessage.textContent = `Error: ${error.message}`;
             passwordMessage.className = 'error';

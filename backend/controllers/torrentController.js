@@ -105,7 +105,8 @@ const getTorrentById = async (req, res) => {
     if (!isValidObjectId(req.params.id)) {
         return res.status(400).json({ message: 'Invalid Torrent ID format.' });
     }
-    const torrent = await Torrent.findById(req.params.id).populate('uploader', 'username');
+    // FIX: Populate both _id and username for the uploader
+    const torrent = await Torrent.findById(req.params.id).populate('uploader', '_id username');
     if (torrent) {
       res.json(torrent);
     } else {
@@ -180,9 +181,9 @@ const getRecentTorrents = async (req, res) => {
         const torrents = await Torrent.find({})
             .sort({ createdAt: -1 })
             .limit(50)
-            .populate('uploader', 'username');
+            // FIX: Populate both _id and username for the uploader
+            .populate('uploader', '_id username');
 
-        // Filter out any torrents where the uploader might have been deleted (robustness)
         const validTorrents = torrents.filter(torrent => torrent.uploader !== null);
 
         res.json(validTorrents);

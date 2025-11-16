@@ -1,0 +1,37 @@
+<%- include('_header', { title: 'Forum Threads - The Pirate Bay', css: 'forum' }) %>
+
+<div id="title-bar"><h2 id="forum-title">Loading Forum...</h2></div>
+
+<div id="main-content">
+    <div class="breadcrumbs"><a href="/forum">Forums</a> &gt; <span id="forum-breadcrumb-name">...</span></div>
+
+    <!-- Create Thread Button & Form -->
+    <div id="create-thread-container" style="display: none; margin-bottom: 20px;">
+        <button id="show-thread-form-btn">Create New Thread</button>
+        <div id="create-thread-form" class="settings-container" style="display: none; margin-top: 15px;">
+            <h3>New Thread</h3>
+            <div id="thread-message" style="display: none;"></div>
+            <label for="thread-title-input">Thread Title</label>
+            <input type="text" id="thread-title-input" required>
+            <label for="thread-content-input">First Post</label>
+            <textarea id="thread-content-input" rows="5" required></textarea>
+            <button id="submit-thread-btn">Post Thread</button>
+        </div>
+    </div>
+
+    <table class="forum-table" id="thread-list-table">
+        <thead>
+            <tr>
+                <th style="width: 45%;">Thread / Author</th>
+                <th class="stats-col">Replies</th>
+                <th class="stats-col">Views</th>
+                <th style="width: 20%;">Last Post</th>
+            </tr>
+        </thead>
+        <tbody id="thread-list-table-body">
+            <tr><td colspan="4" style="text-align: center;">Loading threads...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<%- include('_footer', { script: 'thread-list' }) %>

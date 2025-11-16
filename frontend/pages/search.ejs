@@ -1,0 +1,29 @@
+<%- include('_header', { title: 'Search Torrents - The Pirate Bay', css: 'search' }) %>
+
+<div id="results-info-bar">
+    <span id="search-info">All Torrents</span>
+    <span id="results-count"></span> <!-- Span for showing total results -->
+</div>
+
+<div id="main-content">
+    <div class="pagination" id="pagination-container-top"></div>
+    <table id="searchResult">
+        <thead>
+            <tr>
+                <th><a href="#">Type</a></th>
+                <th>Name</th>
+                <th class="col-se-le"><a href="#">SE</a></th>
+                <th class="col-se-le"><a href="#">LE</a></th>
+            </tr>
+        </thead>
+        <tbody id="search-results-body">
+            <tr>
+                <td colspan="4" style="text-align: center;">Loading torrents...</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- Pagination Container -->
+    <div class="pagination" id="pagination-container-bottom"></div>
+</div>
+
+<%- include('_footer', { script: 'search' }) %>

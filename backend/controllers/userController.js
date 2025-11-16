@@ -2,7 +2,8 @@ const User = require('../models/User.js');
 const Torrent = require('../models/Torrent.js');
 const Post = require('../models/Post.js');
 const jwt = require('jsonwebtoken');
-
+const fs = require('fs'); // Import the File System module
+const path = require('path'); // Import the Path module
 // Helper function to generate a JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -70,19 +71,20 @@ const loginUser = async (req, res) => {
   }
 };
 
-// --- HEAVILY UPGRADED getUserProfile FUNCTION ---
 const getUserProfile = async (req, res) => {
     try {
         const user = await User.findOne({ username: req.params.username })
             .select('-password')
-            .populate('bookmarkedTorrents', 'name category') // Populate bookmarks with name and category
-            .populate('following', 'username avatarPath');     // Populate who this user is following
+            .populate('bookmarkedTorrents', 'name category')
+            .populate('following', '_id username'); // Cleaned up
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // --- Calculate Stats (same as before) ---
+        const followers = await User.find({ following: user._id }).select('_id username'); // Cleaned up
+
+        // The rest of the function is unchanged...
         const uploadCount = await Torrent.countDocuments({ uploader: user._id });
         const postCount = await Post.countDocuments({ user: user._id });
         const downloadStats = await Torrent.aggregate([
@@ -91,10 +93,6 @@ const getUserProfile = async (req, res) => {
         ]);
         const totalDownloads = downloadStats.length > 0 ? downloadStats[0].totalDownloads : 0;
         
-        // --- NEW: Find Followers ---
-        const followers = await User.find({ following: user._id }).select('username avatarPath');
-
-        // Check follow status (same as before)
         let isFollowing = false;
         if (req.user) {
             const currentUser = await User.findById(req.user.id);
@@ -106,11 +104,10 @@ const getUserProfile = async (req, res) => {
         res.json({
             _id: user._id,
             username: user.username,
-            avatarPath: user.avatarPath,
             createdAt: user.createdAt,
             bookmarkedTorrents: user.bookmarkedTorrents,
             following: user.following,
-            followers: followers, // Send the new followers list
+            followers: followers,
             isFollowing,
             stats: {
                 uploads: uploadCount,
@@ -124,21 +121,20 @@ const getUserProfile = async (req, res) => {
     }
 };
 
-// --- ADD THIS NEW FUNCTION ---
-// @desc    Update user avatar
+// @desc    Update user's own avatar
 // @route   PUT /api/users/profile/avatar
 // @access  Private
 const updateUserAvatar = async (req, res) => {
     try {
-        // req.user is attached by the 'protect' middleware
         const user = await User.findById(req.user.id);
 
         if (user) {
-            // req.file is populated by multer
             if (req.file) {
-                user.avatarPath = req.file.path;
+                // Save the image buffer and MIME type to the user document
+                user.avatar.data = req.file.buffer;
+                user.avatar.contentType = req.file.mimetype;
                 await user.save();
-                res.json({ message: 'Avatar updated successfully', avatarPath: user.avatarPath });
+                res.json({ message: 'Avatar updated successfully' });
             } else {
                 res.status(400).json({ message: 'No image file provided' });
             }
@@ -323,19 +319,63 @@ const changeUserPassword = async (req, res) => {
 };
 
 
+// @desc    Admin updates another user's avatar
+// @route   PUT /api/users/profile/:userId/avatar
+// @access  Moderator
 const adminUpdateUserAvatar = async (req, res) => {
-try {
-const user = await User.findById(req.params.userId);
-if (user && req.file) {
-user.avatarPath = req.file.path;
-await user.save();
-res.json({ message: 'Avatar updated successfully', avatarPath: user.avatarPath });
-} else {
-res.status(404).json({ message: 'User not found or no file provided.' });
-}
-} catch (error) { res.status(500).json({ message: 'Server Error' }); }
+    try {
+        const user = await User.findById(req.params.userId);
+        if (user && req.file) {
+            user.avatar.data = req.file.buffer;
+            user.avatar.contentType = req.file.mimetype;
+            await user.save();
+            res.json({ message: 'Avatar updated successfully' });
+        } else {
+            res.status(404).json({ message: 'User not found or no file provided.' });
+        }
+    } catch (error) { 
+        res.status(500).json({ message: 'Server Error' }); 
+    }
 };
 
+// @desc    Get a user's avatar by their ID, with a fallback to a default image.
+// @route   GET /api/users/avatar/:userId
+// @access  Public
+const getUserAvatar = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+
+        // If the user exists and has custom avatar data, send it.
+        if (user && user.avatar && user.avatar.data) {
+            res.set('Content-Type', user.avatar.contentType);
+            return res.send(user.avatar.data);
+        }
+        
+        // --- FALLBACK LOGIC ---
+        // If the user doesn't exist or has no avatar, send the default image.
+        const defaultAvatarPath = path.join(__dirname, '..', 'uploads', 'avatars', 'default.png');
+
+        // Check if the default file exists before trying to send it
+        if (fs.existsSync(defaultAvatarPath)) {
+            res.set('Content-Type', 'image/png');
+            res.sendFile(defaultAvatarPath);
+        } else {
+            // This is a server configuration error, so send a 500
+            console.error('Default avatar not found at:', defaultAvatarPath);
+            res.status(500).json({ message: 'Server error: Default avatar is missing.' });
+        }
+
+    } catch (error) {
+        // If the ID is invalid or another DB error occurs, you can also send the default
+        const defaultAvatarPath = path.join(__dirname, '..', 'uploads', 'avatars', 'default.png');
+        if (fs.existsSync(defaultAvatarPath)) {
+            res.set('Content-Type', 'image/png');
+            res.sendFile(defaultAvatarPath);
+        } else {
+             res.status(500).json({ message: 'Server Error' });
+        }
+    }
+};
 
 // --- UPDATE MODULE.EXPORTS ---
 module.exports = { 
@@ -348,4 +388,4 @@ module.exports = {
     followUser,
     unfollowUser,
     bookmarkTorrent,
-   unbookmarkTorrent, updateUserProfile, changeUserPassword, adminUpdateUserAvatar };
+   unbookmarkTorrent, updateUserProfile, changeUserPassword, adminUpdateUserAvatar, getUserAvatar};

@@ -1,0 +1,51 @@
+<%- include('_header', { title: 'User Profile - The Pirate Bay', css: 'profile' }) %>
+
+<div id="title-bar"><h2 id="profile-title">Loading Profile...</h2></div>
+
+<div id="main-content">
+    <div class="profile-header">
+        <div class="avatar-container">
+            <img src="/uploads/avatars/default.png" alt="User Avatar" id="profile-avatar-img">
+            <form id="avatar-form" style="display: none;">
+                <label for="avatar-input" class="avatar-upload-label">Change</label>
+                <input type="file" id="avatar-input" name="avatar" accept="image/*">
+                <div id="avatar-message"></div>
+            </form>
+        </div>
+        <div class="user-info-container">
+            <h3 id="profile-username">...</h3>
+            <p id="profile-join-date">Member since...</p>
+            <div id="follow-btn-container"></div>
+            <div class="stats-bar">
+                <div class="stat-item"><span id="upload-count">0</span><span>Uploads</span></div>
+                <div class="stat-item"><span id="post-count">0</span><span>Posts</span></div>
+                <div class="stat-item"><span id="download-count">0</span><span>Downloads</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-tabs">
+        <button class="tab-link active" data-tab="uploads">Uploads</button>
+        <button class="tab-link" data-tab="bookmarks">Bookmarks</button>
+        <button class="tab-link" data-tab="posts">Forum Posts</button>
+        <button class="tab-link" data-tab="following">Following</button>
+        <button class="tab-link" data-tab="followers">Followers</button>
+        <button class="tab-link" data-tab="stats">Statistics</button>
+    </div>
+
+    <div id="uploads" class="tab-content active"><p>Loading uploads...</p></div>
+    <div id="bookmarks" class="tab-content"><p>Loading bookmarks...</p></div>
+    <div id="posts" class="tab-content"><p>Loading posts...</p></div>
+    <div id="following" class="tab-content"><p>Loading following list...</p></div>
+    <div id="followers" class="tab-content"><p>Loading followers list...</p></div>
+    <div id="stats" class="tab-content"><div class="chart-container"><canvas id="activityChart"></canvas></div></div>
+</div>
+
+<!-- 
+    !!! THIS IS THE FIX !!!
+    We must include the Chart.js library itself before we include the footer,
+    which is where our profile.js script (that USES the library) is loaded.
+-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<%- include('_footer', { script: 'profile' }) %>

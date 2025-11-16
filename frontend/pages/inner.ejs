@@ -1,0 +1,41 @@
+<%- include('_header', { title: 'Loading Thread... - The Pirate Bay', css: 'inner' }) %>
+
+<div id="title-bar"><h2>Forums</h2></div>
+
+<div id="main-content">
+    <div class="breadcrumbs"><a href="/forum">Forums</a> &gt; <a id="breadcrumb-forum-link" href="#"><span id="thread-forum-name">...</span></a></div>
+
+    <h1 class="thread-title" id="thread-title">Loading Thread...</h1>
+
+    <!-- NEW: Pagination at the top -->
+    <div class="thread-actions">
+        <a href="#reply-box" class="reply-button">Post Reply</a>
+        <div class="pagination" id="pagination-container-top"></div>
+    </div>
+
+    <div id="posts-container">
+        <p style="text-align: center; color: #aaa;">Loading posts...</p>
+    </div>
+
+    <!-- Pagination at the bottom -->
+    <div class="thread-actions thread-actions-bottom">
+         <a href="#reply-box" class="reply-button">Post Reply</a>
+         <div class="pagination" id="pagination-container-bottom"></div>
+    </div>
+
+    <div id="reply-box">
+        <h3>Post a Reply</h3>
+        <div id="reply-message" style="margin-bottom: 10px;"></div>
+        <div class="editor-toolbar">
+            <button id="btn-bold"><b>B</b></button>
+            <button id="btn-italic"><i>I</i></button>
+            <button id="btn-quote">Quote</button>
+        </div>
+        <textarea id="reply-textarea" placeholder="Type your reply here..."></textarea>
+        <div id="reply-actions">
+            <button class="reply-button" id="submit-reply-btn">Submit Reply</button>
+        </div>
+    </div>
+</div>
+
+<%- include('_footer', { script: 'inner' }) %>

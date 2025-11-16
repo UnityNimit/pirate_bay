@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchForm = document.getElementById('home-search-form');
     const luckyBtn = document.getElementById('lucky-btn');
 
-    // --- Handle Standard Search Form Submission ---
+    // searching the form
     if (searchForm) {
         searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Handle "I'm Feeling Lucky" Button Click ---
     if (luckyBtn) {
         luckyBtn.addEventListener('click', async () => {
             const query = searchForm.querySelector('input[name="q"]').value;

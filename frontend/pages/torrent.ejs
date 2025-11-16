@@ -1,0 +1,34 @@
+<%- include('_header', { title: 'Details - The Pirate Bay', css: 'torrent' }) %>
+
+<div id="title-bar">
+    <h2>Details for this torrent</h2>
+</div>
+
+<div id="main-content">
+    <div id="details-frame">
+        <h2 id="details-title">Loading...</h2>
+        <div id="details-info"></div>
+        <p id="info-hash"><b>Info Hash:</b> <span id="info-hash-span"></span></p>
+    </div>
+
+    <div class="action-links" id="action-links-container"></div>
+    <div class="bookmark-container" id="bookmark-btn-container"></div>
+    <p class="magnet-note">(Problems with magnet links are fixed by upgrading your torrent client)</p>
+
+    <!-- --- FIX: RESTORED THE CORRECT STRUCTURE --- -->
+    <div class="section-title">Description</div>
+    <pre id="description">Loading description...</pre>
+
+    <div class="section-title" id="file-list-title">Files (0)</div>
+    <div id="file-list-frame"></div>
+
+    <div id="comments-section">
+        <div class="section-title">Comments</div>
+        <div style="background: #1a1a1a; border: 1px solid #444; border-top: none; padding: 20px 0;">
+            <p style="text-align: center; color: #aaa; margin: 0;">Comments feature coming soon.</p>
+        </div>
+    </div>
+    <!-- --- END OF FIX --- -->
+</div>
+
+<%- include('_footer', { script: 'torrent' }) %>

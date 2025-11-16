@@ -7,12 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const forumMessage = document.getElementById('forum-message');
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-    // --- THIS IS THE FIX ---
-    // Show the "Create Forum" form ONLY if the user is a moderator
     if (userInfo && userInfo.role === 'moderator') {
         createForumContainer.style.display = 'block';
     }
-    // --- END OF FIX ---
 
     const fetchAndDisplayForums = async () => {
         try {
@@ -61,10 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         list.forEach(forum => {
-            // --- THIS IS THE FIX ---
-            // The delete button is now only added if the user is a moderator
             const deleteButton = (userInfo && userInfo.role === 'moderator') ? `<button class="delete-btn" data-id="${forum._id}">&times;</button>` : '';
-            // --- END OF FIX ---
+
             
             const rowHTML = `
                 <tr>
@@ -81,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- HANDLE CREATE FORUM FORM ---
+    // creating a new forum
     createForumForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const name = document.getElementById('forum-name').value;
@@ -108,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- HANDLE DELETE BUTTON CLICKS (Event Delegation) ---
+    // deleting a forum
     document.addEventListener('click', async (e) => {
         if (e.target.classList.contains('delete-btn')) {
             const forumId = e.target.dataset.id;

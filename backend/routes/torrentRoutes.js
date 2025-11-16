@@ -13,10 +13,8 @@ const { protect } = require('../middleware/authMiddleware.js');
 const multer = require('multer');
 const path = require('path');
 
-// --- (Multer configuration is unchanged) ---
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    // Check file type to decide destination folder
     if (file.fieldname === 'images') {
       cb(null, 'uploads/images/');
     } else if (file.fieldname === 'torrentFile') {
@@ -26,15 +24,12 @@ const storage = multer.diskStorage({
     }
   },
   filename(req, file, cb) {
-    // Create a unique filename to avoid conflicts
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
   },
 });
 const upload = multer({ storage });
 
-// --- API ROUTES (CORRECT ORDER) ---
-
-// 1. General and specific list routes first.
+// 1. General and specific routes first.
 router.route('/').get(getTorrents);
 router.route('/recent').get(getRecentTorrents);
 router.route('/top').get(getTopTorrents);
@@ -46,9 +41,7 @@ router.route('/upload').post(protect, upload.fields([
     { name: 'images', maxCount: 5 }
 ]), uploadTorrent);
 
-// 3. Parameterized routes MUST be last.
-// This ensures that Express checks for '/recent', '/top', etc.,
-// BEFORE it assumes the path segment is an ID.
+// 3. Parameterized routes MUST be last. This ensures that Express checks for '/recent', '/top', etc BEFORE it assumes the path segment is an ID.
 router.route('/:id/track').post(trackDownload);
 router.route('/:id').get(getTorrentById);
 

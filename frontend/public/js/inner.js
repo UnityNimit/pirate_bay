@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- ELEMENT SELECTORS ---
     const pageTitle = document.getElementById('page-title');
     const breadcrumbForumLink = document.getElementById('breadcrumb-forum-link');
     const threadForumNameSpan = document.getElementById('thread-forum-name');
@@ -11,14 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitReplyBtn = document.getElementById('submit-reply-btn');
     const replyMessageDiv = document.getElementById('reply-message');
     
-    // --- GET DATA FROM URL & LOCALSTORAGE ---
     const params = new URLSearchParams(window.location.search);
     const threadId = params.get('threadId');
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     
     let currentThread = null;
 
-    // --- INITIAL VALIDATION ---
     if (!threadId) {
         threadTitleH1.textContent = 'Error';
         postsContainer.innerHTML = '<p style="text-align: center; color: red;">No Thread ID was provided in the URL.</p>';
@@ -26,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // --- MAIN DATA FETCHING LOGIC ---
     const fetchThreadAndPosts = async (page = 1) => {
         try {
             if (!currentThread) {
@@ -34,10 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!threadRes.ok) throw new Error('Failed to fetch thread details.');
                 currentThread = await threadRes.json();
                 
-                pageTitle.textContent = `${currentThread.title} - The Pirate Bay`;
-                threadForumNameSpan.textContent = currentThread.forum.name;
-                breadcrumbForumLink.href = `/thread-list?forumId=${currentThread.forum._id}`;
-                threadTitleH1.textContent = currentThread.title;
+                // SAFETY CHECKS: Make sure elements exist before setting properties
+                if (pageTitle) pageTitle.textContent = `${currentThread.title} - The Pirate Bay`;
+                if (threadForumNameSpan) threadForumNameSpan.textContent = currentThread.forum?.name || 'Unknown Forum';
+                if (breadcrumbForumLink) breadcrumbForumLink.href = `/thread-list?forumId=${currentThread.forum?._id}`;
+                if (threadTitleH1) threadTitleH1.textContent = currentThread.title;
             }
 
             const postsRes = await fetch(`/api/threads/${threadId}/posts?page=${page}`);
@@ -49,12 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Error fetching data:', error);
-            postsContainer.innerHTML = `<p style="text-align: center; color: red;">Error: ${error.message}</p>`;
-            threadTitleH1.textContent = 'Data Not Found';
+            if (postsContainer) postsContainer.innerHTML = `<p style="text-align: center; color: red;">Error: ${error.message}</p>`;
+            if (threadTitleH1) threadTitleH1.textContent = 'Data Not Found';
         }
     };
 
-    // --- DISPLAY POSTS (with dynamic avatars) ---
+    // --- MAJOR FIX IS HERE ---
     const displayPosts = (posts) => {
         postsContainer.innerHTML = '';
         if (posts.length === 0) {
@@ -63,22 +60,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         posts.forEach(post => {
-            // --- THIS IS THE FIX for dynamic avatars ---
-            const avatarSrc = post.user?.avatarPath ? `/${post.user.avatarPath.replace(/\\/g, '/')}` : '/uploads/avatars/default.png';
+            // FIX: Use the user's ID to construct the avatar URL.
+            // If the user or their ID doesn't exist (e.g., deleted user), fall back to a default image.
+            const avatarSrc = post.user?._id 
+                ? `/api/users/avatar/${post.user._id}` 
+                : '/uploads/avatars/default.png';
 
             const postHTML = `
                 <div class="post" id="post-${post._id}">
                     <div class="user-info">
-                        <img src="${avatarSrc}" alt="User Avatar" class="user-avatar">
-                        <h3><a href="/profile?user=${post.user ? post.user.username : ''}">${post.user ? post.user.username : 'Deleted User'}</a></h3>
+                        <img src="${avatarSrc}" alt="User Avatar" class="user-avatar" onerror="this.src='/uploads/avatars/default.png';">
+                        <h3><a href="/profile?user=${post.user?.username || 'Deleted User'}">${post.user?.username || 'Deleted User'}</a></h3>
                         <p>Member</p>
-                        <p>Joined: ${post.user ? new Date(post.user.createdAt).toLocaleDateString() : 'N/A'}</p>
+                        <p>Joined: ${post.user?.createdAt ? new Date(post.user.createdAt).toLocaleDateString() : 'N/A'}</p>
                     </div>
                     <div class="post-content">
                         <div class="post-header">Posted: ${new Date(post.createdAt).toLocaleString()}</div>
                         <div class="post-body" id="post-body-${post._id}">${post.content}</div>
                         <div class="post-footer">
-                            <a href="#" class="quote-btn" data-post-id="${post._id}" data-username="${post.user ? post.user.username : 'User'}">Quote</a>
+                            <a href="#" class="quote-btn" data-post-id="${post._id}" data-username="${post.user?.username || 'User'}">Quote</a>
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- DISPLAY PAGINATION (for both top and bottom) ---
+    //paging
     const displayPagination = (currentPage, totalPages) => {
         paginationContainerTop.innerHTML = '';
         paginationContainerBottom.innerHTML = '';
@@ -105,16 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
         paginationContainerBottom.innerHTML = paginationHTML;
     };
 
-    // --- EVENT DELEGATION (for pagination and new quote button) ---
+    // pagination and quote button handler
     document.getElementById('main-content').addEventListener('click', (e) => {
-        // Handle Pagination clicks
         if (e.target.classList.contains('page-link')) {
             e.preventDefault();
             const page = e.target.dataset.page;
             fetchThreadAndPosts(page);
         }
 
-        // --- THIS IS THE FIX for the Quote button ---
+        //quote
         if (e.target.classList.contains('quote-btn')) {
             e.preventDefault();
             const postId = e.target.dataset.postId;
@@ -134,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Post Reply Logic (unchanged, but included for completeness) ---
+    // post reply
     if (submitReplyBtn) {
         submitReplyBtn.addEventListener('click', async () => {
             replyMessageDiv.textContent = '';

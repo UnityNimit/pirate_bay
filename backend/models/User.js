@@ -16,11 +16,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
-  avatarPath: {
-    type: String,
-    default: 'uploads/avatars/default.png', // A default avatar for all new users
+  
+  // --- NEW SCHEMA FOR STORING AVATAR IN DB ---
+  avatar: {
+    data: Buffer, // This will store the image's binary data
+    contentType: String, // This will store the MIME type (e.g., 'image/jpeg')
   },
+  // We no longer need avatarPath. You can remove it or leave it for old data.
+  // avatarPath: {
+  //   type: String,
+  //   default: 'uploads/avatars/default.png', 
+  // },
+
   following: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -51,8 +58,6 @@ userSchema.pre('save', async function (next) {
 
 // Method to compare entered password with hashed password
 userSchema.methods.matchPassword = async function (enteredPassword) {
-  // --- FIX IS HERE ---
-  // Corrected 'enterededPassword' to 'enteredPassword'
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

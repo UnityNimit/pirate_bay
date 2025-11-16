@@ -1,0 +1,112 @@
+<%- include('_header', { title: 'Settings - The Pirate Bay', css: 'settings' }) %>
+
+<div id="title-bar"><h2>Account Settings</h2></div>
+
+<div id="main-content">
+    <!-- Profile & Password Forms -->
+    <div class="settings-container">
+        <h3>Account Information</h3>
+        <form id="profile-update-form">
+            <div id="profile-message"></div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" disabled>
+
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+
+            <button type="submit">Save Profile</button>
+        </form>
+
+        <h3>Change Password</h3>
+        <form id="password-change-form">
+            <div id="password-message"></div>
+            <label for="current-password">Current Password</label>
+            <input type="password" id="current-password" name="currentPassword" required>
+
+            <label for="new-password">New Password</label>
+            <input type="password" id="new-password" name="newPassword" required>
+
+            <button type="submit">Change Password</button>
+        </form>
+    </div>
+
+    <!-- Site & Display Settings -->
+    <div class="settings-container">
+        <h3>Site & Display Settings</h3>
+        <div class="settings-group">
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Dark Mode</strong>
+                    <p>Toggle the site's dark theme.</p>
+                </div>
+                <div class="setting-control">
+                    <label class="toggle-switch"><input type="checkbox" checked disabled><span class="slider"></span></label>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Language</strong>
+                    <p>Select your preferred language.</p>
+                </div>
+                <div class="setting-control">
+                    <select disabled><option>English</option></select>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Font Size</strong>
+                    <p>Adjust the text size across the site.</p>
+                </div>
+                <div class="setting-control">
+                    <select disabled><option>Normal</option></select>
+                </div>
+            </div>
+        </div>
+
+        <h3>Content Settings</h3>
+        <div class="settings-group">
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Hide Adult Content</strong>
+                    <p>Filter out content marked as "Adult".</p>
+                </div>
+                <div class="setting-control">
+                    <label class="toggle-switch"><input type="checkbox" disabled><span class="slider"></span></label>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Safety Feature</strong>
+                    <p>Enable additional browsing safety features.</p>
+                </div>
+                <div class="setting-control">
+                    <label class="toggle-switch"><input type="checkbox" checked disabled><span class="slider"></span></label>
+                </div>
+            </div>
+        </div>
+
+        <h3>Behavior Settings</h3>
+         <div class="settings-group">
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Date & Time Format</strong>
+                    <p>How dates and times are displayed.</p>
+                </div>
+                <div class="setting-control">
+                     <select disabled><option>MM/DD/YYYY</option></select>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Link Behavior</strong>
+                    <p>Open all torrent/magnet links in a new tab.</p>
+                </div>
+                <div class="setting-control">
+                    <label class="toggle-switch"><input type="checkbox" disabled><span class="slider"></span></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('_footer', { script: 'settings' }) %>

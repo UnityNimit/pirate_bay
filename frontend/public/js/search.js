@@ -104,13 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
         paginationContainerBottom.innerHTML = paginationHTML;
     };
 
-    // Event Delegation for Pagination Links
+    // paging\\\\
     document.getElementById('main-content').addEventListener('click', (e) => {
         if (e.target.classList.contains('page-link')) {
             e.preventDefault();
             const newPage = e.target.dataset.page;
             
-            // Update URL without reloading page
             const newParams = new URLSearchParams(window.location.search);
             newParams.set('page', newPage);
             window.history.pushState({}, '', `${window.location.pathname}?${newParams.toString()}`);
@@ -129,6 +128,5 @@ document.addEventListener('DOMContentLoaded', () => {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
-    // Initial call to load data for the current page
     fetchAndDisplayTorrents(page);
 });

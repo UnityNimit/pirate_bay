@@ -2,7 +2,6 @@ const Forum = require('../models/Forum.js');
 const Thread = require('../models/Thread.js');
 const Post = require('../models/Post.js');
 
-// --- HELPER FUNCTION ---
 // A simple BBCode to HTML parser
 function parseBBCode(text) {
     if (!text) return '';
@@ -106,8 +105,11 @@ const getThreadsInForum = async (req, res) => {
 const getThreadById = async (req, res) => {
     try {
         const thread = await Thread.findById(req.params.id)
-            .populate('user', 'username')
-            .populate('forum', 'name');
+            // FIX: Ensure we populate the user's ID along with their name
+            .populate('user', '_id username') 
+            // FIX: Ensure we populate the forum's ID along with its name
+            .populate('forum', '_id name');
+            
         if (thread) res.json(thread);
         else res.status(404).json({ message: 'Thread not found' });
     } catch (error) { res.status(500).json({ message: 'Server Error' }); }
@@ -147,7 +149,6 @@ const createThread = async (req, res) => {
 };
 
 
-// --- POSTS ---
 const getPostsInThread = async (req, res) => {
     try {
         const POSTS_PER_PAGE = 5;
@@ -155,15 +156,17 @@ const getPostsInThread = async (req, res) => {
         const totalPosts = await Post.countDocuments({ thread: req.params.id });
 
         const posts = await Post.find({ thread: req.params.id })
-            .populate('user', 'username createdAt')
+            // FIX: Populate the user's ID, username, and creation date for the info box
+            .populate('user', '_id username createdAt') 
             .sort({ createdAt: 1 })
             .skip((page - 1) * POSTS_PER_PAGE)
             .limit(POSTS_PER_PAGE);
 
-        // Parse BBCode for each post before sending
         const parsedPosts = posts.map(post => {
             const postObject = post.toObject();
-            postObject.content = parseBBCode(postObject.content);
+            if (postObject.content) {
+                postObject.content = parseBBCode(postObject.content);
+            }
             return postObject;
         });
 

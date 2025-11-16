@@ -1,0 +1,58 @@
+<%- include('_header', { title: 'Forums - The Pirate Bay', css: 'forum' }) %>
+
+<div id="title-bar">
+    <h2>Forums</h2>
+</div>
+
+<div id="main-content">
+    <!-- New Forum Creation Form (now uses classic theme) -->
+    <div id="create-forum-container" class="settings-container" style="display: none; margin-bottom: 25px;">
+        <h3>Create New Community Forum</h3>
+        <form id="create-forum-form">
+            <div id="forum-message" style="display:none;"></div>
+            <label for="forum-name">Forum Name</label>
+            <input type="text" id="forum-name" required>
+            <label for="forum-description">Description</label>
+            <input type="text" id="forum-description" required>
+            <button type="submit">Create Forum</button>
+        </form>
+    </div>
+
+    <!-- Section for FAQs -->
+    <table class="forum-table">
+        <thead>
+            <tr class="category-header"><td colspan="4">Frequently Asked Questions</td></tr>
+        </thead>
+        <tbody id="faq-table-body">
+            <tr><td>Loading...</td></tr>
+        </tbody>
+    </table>
+
+    <!-- Section for Guides -->
+    <table class="forum-table" style="margin-top: 25px;">
+        <thead>
+            <tr class="category-header"><td colspan="4">Guides</td></tr>
+        </thead>
+        <tbody id="guide-table-body">
+            <tr><td>Loading...</td></tr>
+        </tbody>
+    </table>
+
+    <!-- Section for General Forums -->
+    <table class="forum-table" style="margin-top: 25px;">
+        <thead>
+            <tr class="category-header"><td colspan="4">Community Forums</td></tr>
+            <tr>
+                <th style="width: 50%;">Forum</th>
+                <th style="width: 25%;">Last Post</th>
+                <th class="stats-col">Topics</th>
+                <th class="stats-col">Posts</th>
+            </tr>
+        </thead>
+        <tbody id="forum-table-body">
+            <tr><td colspan="4" style="text-align: center;">Loading...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<%- include('_footer', { script: 'forum' }) %>

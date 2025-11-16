@@ -1,0 +1,30 @@
+<%- include('_header', { title: 'Login - The Pirate Bay', css: 'login' }) %>
+
+<div id="title-bar">
+    <h2>Login</h2>
+</div>
+
+<div id="main-content">
+    <form class="login-form" id="login-form">
+        <div id="message"></div>
+        <table>
+            <tr>
+                <td class="label-col"><label for="email">Email:</label></td>
+                <td><input type="email" id="email" name="email" required></td>
+            </tr>
+            <tr>
+                <td class="label-col"><label for="password">Password:</label></td>
+                <td><input type="password" id="password" name="password" required></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+    <p class="create-account-text">
+        Don't have an account? <a href="/register">Register here</a>.
+    </p>
+</div>
+
+<%- include('_footer', { script: 'login' }) %>

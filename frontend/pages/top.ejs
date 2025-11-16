@@ -1,0 +1,43 @@
+<%- include('_header', { title: 'Trending Torrents - The Pirate Bay', css: 'top' }) %>
+
+<div id="title-bar">
+    <h2>Trending Torrents</h2>
+</div>
+
+<div id="main-content">
+    <div class="top100-container">
+        <!-- Column 1 -->
+        <div class="top100-col">
+            <div class="top-category" data-category="Audio">
+                <h3><a href="/search?categories=Audio">Trending Audio</a></h3>
+                <ol class="top-list"><li>Loading...</li></ol>
+            </div>
+             <div class="top-category" data-category="Video">
+                <h3><a href="/search?categories=Video">Trending Video</a></h3>
+                <ol class="top-list"><li>Loading...</li></ol>
+            </div>
+             <div class="top-category" data-category="Applications">
+                <h3><a href="/search?categories=Applications">Trending Applications</a></h3>
+                <ol class="top-list"><li>Loading...</li></ol>
+            </div>
+        </div>
+        <!-- Column 2 -->
+        <div class="top100-col">
+             <div class="top-category" data-category="Games">
+                <h3><a href="/search?categories=Games">Trending Games</a></h3>
+                <ol class="top-list"><li>Loading...</li></ol>
+            </div>
+            <div class="top-category" data-category="Adult">
+                <h3><a href="/search?categories=Adult">Trending Adult</a></h3>
+                <ol class="top-list"><li>Loading...</li></ol>
+            </div>
+            <div class="top-category" data-category="Misc">
+                <h3><a href="/search?categories=Misc">Trending Misc</a></h3>
+                <ol class="top-list"><li>Loading...</li></ol>
+            </div>
+        </div>
+    </div>
+     <div id="total-top"><a href="/top">View Top 100 Overall</a></div>
+</div>
+
+<%- include('_footer', { script: 'top' }) %>

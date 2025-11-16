@@ -22,20 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             if (res.ok) {
-                // Login successful
                 messageDiv.textContent = 'Login successful! Redirecting...';
                 messageDiv.classList.add('success');
 
-                // VERY IMPORTANT: Store user info and token in localStorage
                 localStorage.setItem('userInfo', JSON.stringify(data));
 
-                // Redirect to the home page after a short delay
                 setTimeout(() => {
                     window.location.href = '/';
                 }, 1500);
 
             } else {
-                // Login failed (e.g., "Invalid email or password")
                 messageDiv.textContent = data.message || 'Login failed.';
                 messageDiv.classList.add('error');
             }

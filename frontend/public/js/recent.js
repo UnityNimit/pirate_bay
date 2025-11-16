@@ -8,9 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const torrents = await res.json();
             
-            // --- THIS IS THE CRITICAL DEBUGGING STEP ---
             console.log("Data received from /api/torrents/recent:", torrents);
-            // ---------------------------------------------
             
             tableBody.innerHTML = '';
             if (torrents.length === 0) {

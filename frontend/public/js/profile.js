@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     // --- ELEMENT SELECTORS ---
     const mainContent = document.getElementById('main-content');
     const profileTitle = document.getElementById('profile-title');
@@ -12,21 +13,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const avatarInput = document.getElementById('avatar-input');
     const avatarMessage = document.getElementById('avatar-message');
     
-    // --- GET DATA FROM URL AND LOCALSTORAGE ---
+    // --- STATE VARIABLES ---
     const params = new URLSearchParams(window.location.search);
     const username = params.get('user');
     const loggedInUser = JSON.parse(localStorage.getItem('userInfo'));
 
-    // This will hold all the data fetched from the API for the profile page
     let profileData = null;
+    let loadedTabs = {};
+    let chartInstance = null; // To hold the chart object
 
-    // --- INITIAL VALIDATION ---
     if (!username) {
         mainContent.innerHTML = '<h1>No user specified.</h1>';
         return;
     }
-
-    // --- MAIN DATA FETCHING AND DISPLAY ---
+    
+    // --- MAIN DATA FETCHING ---
     const fetchProfileData = async () => {
         try {
             const headers = {};
@@ -44,17 +45,18 @@ document.addEventListener('DOMContentLoaded', () => {
             profileData = await res.json();
             
             displayProfile(profileData);
-            // After displaying the main profile, load the content for the default active tab
+            // Fetch content for the default 'uploads' tab on initial page load
             fetchTabContent('uploads');
         } catch (error) {
             mainContent.innerHTML = `<h1>${error.message}</h1>`;
         }
     };
 
+    // --- PROFILE DISPLAY ---
     const displayProfile = (data) => {
         document.title = `${data.username}'s Profile - The Pirate Bay`;
         profileTitle.textContent = `${data.username}'s Profile`;
-        profileAvatarImg.src = `/${data.avatarPath.replace(/\\/g, '/')}`;
+        profileAvatarImg.src = `/api/users/avatar/${data._id}?t=${new Date().getTime()}`;
         profileUsername.textContent = data.username;
         profileJoinDate.textContent = `Member since ${new Date(data.createdAt).toLocaleDateString()}`;
 
@@ -62,20 +64,17 @@ document.addEventListener('DOMContentLoaded', () => {
         postCountSpan.textContent = data.stats.posts;
         downloadCountSpan.textContent = data.stats.totalDownloads;
         
-        // Show avatar upload form ONLY if the logged-in user is viewing their own profile
         if (loggedInUser && loggedInUser.username === data.username) {
             avatarForm.style.display = 'block';
         }
-        
-        // Render the follow/unfollow button
         renderFollowButton(data.username, data.isFollowing);
     };
 
-    // --- FOLLOW/UNFOLLOW BUTTON LOGIC ---
+    // --- FOLLOW BUTTON ---
     const renderFollowButton = (profileUsername, isFollowing) => {
         const container = document.getElementById('follow-btn-container');
         if (!loggedInUser || loggedInUser.username === profileUsername) {
-            container.innerHTML = ''; // Don't show follow button on your own profile
+            container.innerHTML = '';
             return;
         }
 
@@ -102,52 +101,70 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    // --- TAB SWITCHING LOGIC ---
+    // --- TAB SWITCHING LOGIC (REFACTORED) ---
     const tabs = document.querySelectorAll('.tab-link');
     const tabContents = document.querySelectorAll('.tab-content');
 
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
+            // 1. Destroy any existing chart before changing the view
+            if (chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null;
+            }
+
+            // 2. Switch the active classes on tabs and content panes
             tabs.forEach(t => t.classList.remove('active'));
             tabContents.forEach(c => c.classList.remove('active'));
             tab.classList.add('active');
             const tabName = tab.dataset.tab;
             document.getElementById(tabName).classList.add('active');
+            
+            // 3. Always call fetchTabContent, which will decide what to render.
             fetchTabContent(tabName);
         });
     });
 
-    // --- DYNAMIC TAB CONTENT FETCHER ---
-    let loadedTabs = {};
+    // --- DYNAMIC TAB CONTENT FETCHER (REFACTORED) ---
     const fetchTabContent = async (tabName) => {
-        if (loadedTabs[tabName]) return;
+        // If content for an API tab is already loaded, do nothing.
+        // The 'stats' tab doesn't fetch, so it will always proceed.
+        if (loadedTabs[tabName]) {
+            return;
+        }
+
         const container = document.getElementById(tabName);
         if (!profileData) return;
 
         try {
-            // We NO LONGER need to fetch for most tabs, as the data is already in profileData
             if (tabName === 'uploads') {
                 const res = await fetch(`/api/users/profile/${username}/uploads`);
                 displayUploads(await res.json());
+                loadedTabs[tabName] = true;
             } else if (tabName === 'posts') {
                 const res = await fetch(`/api/users/profile/${username}/posts`);
                 displayPosts(await res.json());
+                loadedTabs[tabName] = true;
             } else if (tabName === 'bookmarks') {
                 displayBookmarks(profileData.bookmarkedTorrents);
+                loadedTabs[tabName] = true;
             } else if (tabName === 'following') {
                 displayUserGrid(container, profileData.following, 'Not following anyone yet.');
+                loadedTabs[tabName] = true;
             } else if (tabName === 'followers') {
                 displayUserGrid(container, profileData.followers, 'No followers yet.');
+                loadedTabs[tabName] = true;
             } else if (tabName === 'stats') {
+                // This is now called *after* the tab is visible, ensuring correct rendering.
                 renderActivityChart(profileData.stats);
+                // We don't mark 'stats' as loaded so it can be re-rendered.
             }
-            loadedTabs[tabName] = true;
         } catch (error) {
             container.innerHTML = `<p style="color: red;">Could not load content: ${error.message}</p>`;
         }
     };
     
-    // --- DISPLAY FUNCTIONS FOR ALL TAB CONTENT ---
+    // --- DISPLAY FUNCTIONS ---
     const displayUploads = (uploads) => {
         const container = document.getElementById('uploads');
         if (uploads.length === 0) { container.innerHTML = '<p>This user has not uploaded any torrents yet.</p>'; return; }
@@ -181,13 +198,17 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const displayUserGrid = (container, userList, emptyMessage) => {
-        if (userList.length === 0) { container.innerHTML = `<p>${emptyMessage}</p>`; return; }
+        if (userList.length === 0) { 
+            container.innerHTML = `<p>${emptyMessage}</p>`; 
+            return; 
+        }
         let html = '<div class="user-grid">';
         userList.forEach(user => {
+            const avatarSrc = `/api/users/avatar/${user._id}`;
             html += `
                 <div class="user-card">
                     <a href="/profile?user=${user.username}">
-                        <img src="/${user.avatarPath.replace(/\\/g, '/')}" alt="${user.username}'s avatar" class="user-card-avatar">
+                        <img src="${avatarSrc}" alt="${user.username}'s avatar" class="user-card-avatar" onerror="this.src='/uploads/avatars/default.png';">
                         <div class="user-card-username">${user.username}</div>
                     </a>
                 </div>
@@ -196,9 +217,16 @@ document.addEventListener('DOMContentLoaded', () => {
         container.innerHTML = html + '</div>';
     };
 
+    // --- CHART RENDERING (SIMPLIFIED) ---
     const renderActivityChart = (stats) => {
-        const ctx = document.getElementById('activityChart').getContext('2d');
-        new Chart(ctx, {
+        const canvas = document.getElementById('activityChart');
+        if (!canvas) {
+            console.error("Statistics canvas not found in DOM.");
+            return;
+        }
+        const ctx = canvas.getContext('2d');
+        
+        chartInstance = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['Uploads', 'Forum Posts'],
@@ -212,13 +240,13 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                maintainAspectRatio: false, // This is key to filling the container
                 plugins: { legend: { position: 'top', labels: { color: '#aaa' } } }
             }
         });
     };
 
-    // --- AVATAR UPLOAD LOGIC ---
+    // --- PFP UPLOADING ---
     if (avatarForm) {
         avatarInput.addEventListener('change', () => {
              avatarForm.dispatchEvent(new Event('submit'));
@@ -246,7 +274,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.message);
 
-                profileAvatarImg.src = `/${data.avatarPath.replace(/\\/g, '/')}?t=${new Date().getTime()}`;
+                // --- FINAL FIX FOR UPLOAD SUCCESS ---
+                // After upload, refresh the image source from the correct API endpoint.
+                // We use the loggedInUser's ID as the backend doesn't return it on this request.
+                profileAvatarImg.src = `/api/users/avatar/${loggedInUser._id}?t=${new Date().getTime()}`;
+                
                 avatarMessage.textContent = 'Success!';
                 avatarMessage.style.color = 'green';
                 setTimeout(() => avatarMessage.textContent = '', 2000);

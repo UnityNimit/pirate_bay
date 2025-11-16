@@ -1,0 +1,44 @@
+<%- include('_header', { title: 'Upload Torrent - The Pirate Bay', css: 'upload' }) %>
+
+<div id="title-bar">
+    <h2>Upload New Torrent</h2>
+</div>
+
+<div id="main-content">
+    <form class="login-form" id="upload-form" enctype="multipart/form-data">
+        <div id="message"></div>
+        <table>
+            <tr>
+                <td class="label-col"><label for="torrentFile">.torrent File:</label></td>
+                <td><input type="file" id="torrentFile" name="torrentFile" accept=".torrent" required></td>
+            </tr>
+             <tr>
+                <td class="label-col"><label for="category">Category:</label></td>
+                <td>
+                    <select id="category" name="category" required>
+                        <option value="Audio">Audio</option>
+                        <option value="Video">Video</option>
+                        <option value="Applications">Applications</option>
+                        <option value="Games">Games</option>
+                        <option value="Adult">Adult</option>
+                        <option value="Misc">Misc</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-col"><label for="description">Description:</label></td>
+                <td><textarea id="description" name="description" rows="6" required></textarea></td>
+            </tr>
+             <tr>
+                <td class="label-col"><label for="images">Images (Optional):</label></td>
+                <td><input type="file" id="images" name="images" accept="image/*" multiple></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Upload Torrent"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<%- include('_footer', { script: 'upload' }) %>

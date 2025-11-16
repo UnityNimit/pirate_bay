@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-    // --- Selectors for the standard HEADER ---
+    // slector for header
     const navAuthLinks = document.getElementById('nav-auth-links');
     const navUserLinks = document.getElementById('nav-user-links');
     const navWelcome = document.getElementById('nav-welcome');
     const navMyProfileLink = document.getElementById('nav-my-profile');
     
-    // --- Selectors for the standard FOOTER ---
+    // selector for footer
     const footerAuthLinks = document.getElementById('footer-auth-links');
     const footerUserLinks = document.getElementById('footer-user-links');
     const footerSettingsContainer = document.getElementById('footer-settings-link-container');
 
-    // --- Selectors for the unique HOMEPAGE ---
+    // Selector for home navigation
     const mainAuthLinks = document.getElementById('main-nav-auth-links');
     const mainUserLinks = document.getElementById('main-nav-user-links');
     const mainWelcome = document.getElementById('main-nav-welcome');
@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainNavSettingsContainer = document.getElementById('main-nav-settings-link-container');
 
     if (userInfo && userInfo.token) {
-        // --- User is LOGGED IN ---
         const welcomeMessage = `Welcome, ${userInfo.username}!`;
         const profileUrl = `/profile?user=${userInfo.username}`;
 
@@ -34,8 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (footerAuthLinks) footerAuthLinks.style.display = 'none';
         if (footerUserLinks) footerUserLinks.style.display = 'inline';
         if (footerSettingsContainer) {
-            // --- THIS IS THE FIX ---
-            // The leading ' | ' is now part of the dynamic content.
             footerSettingsContainer.innerHTML = ` | <a href="/settings">Settings</a> | <a href="#" onclick="logout()">Logout</a>`;
         }
 
@@ -45,29 +42,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mainWelcome) mainWelcome.textContent = welcomeMessage;
         if (mainNavMyProfileLink) mainNavMyProfileLink.href = profileUrl;
         if (mainNavSettingsContainer) {
-            // --- THIS IS THE FIX ---
-            // The leading ' | ' is now part of the dynamic content.
             mainNavSettingsContainer.innerHTML = ` | <a href="/settings">Settings</a>`;
         }
 
 
     } else {
-        // --- User is LOGGED OUT ---
+        //Uuser logged out
         // Update Header
         if (navAuthLinks) navAuthLinks.style.display = 'inline';
         if (navUserLinks) navUserLinks.style.display = 'none';
         if (navWelcome) navWelcome.textContent = '';
         
-        // Update Standard Footer
+        // Update Footer
         if (footerAuthLinks) footerAuthLinks.style.display = 'inline';
         if (footerUserLinks) footerUserLinks.style.display = 'none';
-        if (footerSettingsContainer) footerSettingsContainer.innerHTML = ''; // Ensure it's empty
+        if (footerSettingsContainer) footerSettingsContainer.innerHTML = '';
 
         // Update Homepage
         if (mainAuthLinks) mainAuthLinks.style.display = 'inline';
         if (mainUserLinks) mainUserLinks.style.display = 'none';
         if (mainWelcome) mainWelcome.textContent = '';
-        if (mainNavSettingsContainer) mainNavSettingsContainer.innerHTML = ''; // Ensure it's empty
+        if (mainNavSettingsContainer) mainNavSettingsContainer.innerHTML = '';
     }
 });
 
@@ -76,7 +71,7 @@ function logout() {
     window.location.href = '/login';
 }
 
-// --- Style for the welcome message (unchanged) ---
+//styles for welcome messages
 const style = document.createElement('style');
 style.innerHTML = `
 .welcome-message { color: #90ee90; font-size: 12px; margin-top: 10px; text-align: left; }

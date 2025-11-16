@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/global.css">
+    <% if (css) { %>
+        <link rel="stylesheet" href="/css/<%= css %>.css">
+    <% } %>
+</head>
+<body>
+    <!-- START: UNIVERSAL DYNAMIC HEADER -->
+    <div id="header-container">
+        <a href="/" id="logo"><img src="/images/logo_small.png" alt="The Pirate Bay Logo"></a>
+        <div id="search-nav-container">
+            <nav>
+                <a href="/search">Browse All Torrents</a> |
+                <a href="/top">Trending Torrents</a> |
+                <a href="/recent">Recent Torrents</a> |
+                <a href="/forum">Forum</a>
+                <span id="nav-auth-links">
+                    | <a href="/login" id="nav-login">Login</a>
+                    | <a href="/register" id="nav-register">Register</a>
+                </span>
+                <span id="nav-user-links" style="display: none;">
+                    | <a id="nav-my-profile" href="#">Profile</a>
+                    | <a href="/upload" id="nav-upload">Upload</a>
+                </span>
+            </nav>
+            <form id="searchform" action="/search" method="get">
+                <input type="text" id="searchBox" name="q" placeholder="Search here...">
+                <input type="submit" id="searchBtn" value="Pirate Search">
+            </form>
+            <div id="nav-welcome" class="welcome-message"></div>
+        </div>
+    </div>
+    <!-- END: UNIVERSAL DYNAMIC HEADER -->

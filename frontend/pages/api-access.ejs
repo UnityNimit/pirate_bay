@@ -1,0 +1,22 @@
+<%- include('_header', { title: 'API Access - The Pirate Bay', css: 'info-page' }) %>
+
+<div id="title-bar"><h2>API Access</h2></div>
+
+<div id="main-content">
+    <div class="info-content">
+        <h3>Public API Endpoints</h3>
+        <p>This project features a complete RESTful API that powers the entire frontend. The following public endpoints are available for use:</p>
+        <ul>
+            <li><code>GET /api/torrents</code> - Fetch all torrents.</li>
+            <li><code>GET /api/torrents?q=[keyword]</code> - Search for torrents by name.</li>
+            <li><code>GET /api/torrents?categories=[cat1,cat2]</code> - Filter torrents by category.</li>
+            <li><code>GET /api/torrents/recent</code> - Get the 50 most recently uploaded torrents.</li>
+            <li><code>GET /api/torrents/top?category=[cat]</code> - Get the top 100 torrents, optionally filtered by category.</li>
+            <li><code>GET /api/torrents/:id</code> - Get details for a single torrent.</li>
+            <li><code>GET /api/users/profile/:username</code> - Get a user's public profile and stats.</li>
+        </ul>
+        <p>Protected endpoints for uploading, posting, and following require a valid JWT Bearer Token obtained via login or registration.</p>
+    </div>
+</div>
+
+<%- include('_footer', { script: null }) %>
