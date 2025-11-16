@@ -1,5 +1,13 @@
 /* frontend/public/css/global.css */
+/* Hide scrollbar for Chrome, Safari, and Edge */
+body::-webkit-scrollbar {
+    display: none;
+}
 
+/* Hide scrollbar for Firefox */
+body {
+    scrollbar-width: none;
+}
 /* General Body and Link Styles */
 body {
     background-color: #121212;
