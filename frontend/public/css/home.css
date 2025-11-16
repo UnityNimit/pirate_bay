@@ -1,4 +1,14 @@
 /* frontend/public/css/home.css */
+html, body {
+    scrollbar-width: none;      /* Firefox */
+    overflow-y: scroll;         /* allow scroll but hide scrollbar */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;              /* Chrome, Safari, Edge */
+}
+
 
 .container { max-width: 800px; margin: 0 auto; text-align: center; padding: 20px; }
 header img { max-width: 300px; height: auto; }
