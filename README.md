@@ -6,7 +6,7 @@
 
 A comprehensive, feature-rich clone of The Pirate Bay, built from the ground up using modern web technologies. This project was developed as part of the Web Programming course (CSE 2022) and serves as a complete demonstration of a full-stack MERN-like application, from user authentication and file sharing to a dynamic community forum.
 
-![The Pirate Bay Clone Homepage](https://i.imgur.com/example-image.png) <!-- **IMPORTANT**: Replace this with a real screenshot of your running application! -->
+![The Pirate Bay Clone Homepage](https://github.com/UnityNimit/pirate_bay/blob/main/frontend/public/images/main.png)
 
 ---
 
