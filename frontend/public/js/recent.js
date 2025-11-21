@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 tableBody.innerHTML += torrentRowHTML;
             });
         } catch (error) {
-            console.error('Error during torrent display:', error); // More specific error log
+            console.error('Error during torrent display:', error);
             tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: red;">Could not display recent torrents. There might be a scripting error. (Check console for details)</td></tr>`;
         }
     };

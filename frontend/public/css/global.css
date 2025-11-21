@@ -21,7 +21,7 @@ a:hover { text-decoration: underline; }
 #header-container nav { margin-bottom: 15px; }
 #header-container nav a {
     font-weight: normal;
-    border-bottom: none; /* REMOVED dotted underline */
+    border-bottom: none;
     margin: 0 5px;
     font-size: 14px;
     text-decoration: none;

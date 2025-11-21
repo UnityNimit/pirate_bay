@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let w = canvas.width = window.innerWidth;
     let h = canvas.height = window.innerHeight;
 
-    // The characters that will be raining down
     const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
     const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const nums = '0123456789';
@@ -25,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ctx.fillRect(0, 0, w, h);
 
-        // A godly, aesthetic green color
         ctx.fillStyle = 'rgba(62, 62, 62, 1)';
         ctx.font = `${fontSize}px monospace`;
 
@@ -34,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
             // Reset the drop to the top when it goes off-screen
-            // The randomness adds to the chaotic, corrupted aesthetic
             if (drops[i] * fontSize > h && Math.random() > 0.975) {
                 drops[i] = 0;
             }

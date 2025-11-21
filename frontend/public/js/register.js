@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
         messageDiv.textContent = '';
         messageDiv.className = '';
 
-        // Grab the data from the form fields
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -40,12 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 2000);
 
             } else {
-                // Error from the server 
                 messageDiv.textContent = data.message || 'An error occurred.';
                 messageDiv.classList.add('error'); 
             }
         } catch (error) {
-            // Network error or other issue
             console.error('Registration error:', error);
             messageDiv.textContent = 'Could not connect to the server.';
             messageDiv.classList.add('error');

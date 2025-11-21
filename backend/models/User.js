@@ -22,11 +22,6 @@ const userSchema = new mongoose.Schema({
     data: Buffer, // This will store the image's binary data
     contentType: String, // This will store the MIME type (e.g., 'image/jpeg')
   },
-  // We no longer need avatarPath. You can remove it or leave it for old data.
-  // avatarPath: {
-  //   type: String,
-  //   default: 'uploads/avatars/default.png', 
-  // },
 
   following: [{
     type: mongoose.Schema.Types.ObjectId,

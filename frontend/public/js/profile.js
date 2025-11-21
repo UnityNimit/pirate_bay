@@ -290,6 +290,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- INITIAL CALL ---
     fetchProfileData();
 });

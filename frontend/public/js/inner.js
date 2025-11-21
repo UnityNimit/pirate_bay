@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         posts.forEach(post => {
-            // FIX: Use the user's ID to construct the avatar URL.
             // If the user or their ID doesn't exist (e.g., deleted user), fall back to a default image.
             const avatarSrc = post.user?._id 
                 ? `/api/users/avatar/${post.user._id}` 
@@ -187,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- RICH TEXT EDITOR LOGIC ---
+    // code for text editor
     const btnBold = document.getElementById('btn-bold');
     const btnItalic = document.getElementById('btn-italic');
     const btnQuote = document.getElementById('btn-quote');
@@ -213,6 +212,5 @@ document.addEventListener('DOMContentLoaded', () => {
         replyTextarea.focus();
     });
 
-    // Initial call
     fetchThreadAndPosts();
 });

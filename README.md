@@ -134,6 +134,5 @@ This project has a strong foundation for even more advanced features.
 
 ## 👥 Authors
 
-- Nimit Hacker
+- Nimit
 - Sejal
-- TorrentMaster
